@@ -17,39 +17,38 @@
 
 package walkingkooka.classloader;
 
-import walkingkooka.reflect.ClassName;
 import walkingkooka.test.Testing;
 
 import java.util.Optional;
 
 public interface ClassLoaderProviderTesting extends Testing {
 
-    default void classFileAndCheck(final ClassLoaderResourceProvider provider,
-                                   final ClassName name) {
-        this.classFileAndCheck(
+    default void loadAndCheck(final ClassLoaderResourceProvider provider,
+                              final ClassLoaderResourcePath path) {
+        this.loadAndCheck(
                 provider,
-                name,
+                path,
                 Optional.empty()
         );
     }
 
-    default void classFileAndCheck(final ClassLoaderResourceProvider provider,
-                                   final ClassName name,
-                                   final ClassLoaderResource expected) {
-        this.classFileAndCheck(
+    default void loadAndCheck(final ClassLoaderResourceProvider provider,
+                              final ClassLoaderResourcePath path,
+                              final ClassLoaderResource expected) {
+        this.loadAndCheck(
                 provider,
-                name,
+                path,
                 Optional.of(expected)
         );
     }
 
-    default void classFileAndCheck(final ClassLoaderResourceProvider provider,
-                                   final ClassName name,
-                                   final Optional<ClassLoaderResource> expected) {
+    default void loadAndCheck(final ClassLoaderResourceProvider provider,
+                              final ClassLoaderResourcePath path,
+                              final Optional<ClassLoaderResource> expected) {
         this.checkEquals(
                 expected,
-                provider.classFile(name),
-                () -> "load " + name
+                provider.load(path),
+                () -> "load " + path
         );
     }
 }
