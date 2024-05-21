@@ -17,13 +17,76 @@
 
 package walkingkooka.classloader;
 
+import org.junit.jupiter.api.Test;
+import walkingkooka.io.FileExtension;
 import walkingkooka.naming.NameTesting;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseSensitivity;
 
+import java.util.Optional;
+
 public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoaderResourceName>,
         NameTesting<ClassLoaderResourceName, ClassLoaderResourceName> {
+
+    // fileExtension........................................................................................................
+
+    @Test
+    public void testFileExtensionMissing() {
+        this.fileExtensionAndCheck(
+                ClassLoaderResourceName.with("xyz")
+        );
+    }
+
+    @Test
+    public void testFileExtensionEmpty() {
+        this.fileExtensionAndCheck(
+                ClassLoaderResourceName.with("xyz."),
+                FileExtension.with("")
+        );
+    }
+
+    @Test
+    public void testFileExtensionPresent() {
+        this.fileExtensionAndCheck(
+                ClassLoaderResourceName.with("xyz.txt"),
+                FileExtension.with("txt")
+        );
+    }
+
+    @Test
+    public void testFileExtensionPresent2() {
+        this.fileExtensionAndCheck(
+                ClassLoaderResourceName.with("xyz.EXE"),
+                FileExtension.with("EXE")
+        );
+    }
+
+    private void fileExtensionAndCheck(final ClassLoaderResourceName name) {
+        this.fileExtensionAndCheck(
+                name,
+                Optional.empty()
+        );
+    }
+
+    private void fileExtensionAndCheck(final ClassLoaderResourceName name,
+                                       final FileExtension extension) {
+        this.fileExtensionAndCheck(
+                name,
+                Optional.of(extension)
+        );
+    }
+
+    private void fileExtensionAndCheck(final ClassLoaderResourceName name,
+                                       final Optional<FileExtension> extension) {
+        this.checkEquals(
+                extension,
+                name.fileExtension(),
+                "file extension within " + name
+        );
+    }
+
+    // NameTesting......................................................................................................
 
     @Override
     public ClassLoaderResourceName createName(final String name) {

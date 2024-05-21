@@ -18,9 +18,12 @@
 package walkingkooka.classloader;
 
 import walkingkooka.Cast;
+import walkingkooka.io.FileExtension;
 import walkingkooka.naming.Name;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.CharSequences;
+
+import java.util.Optional;
 
 /**
  * The name portion of a class path resource path.
@@ -52,6 +55,21 @@ public final class ClassLoaderResourceName implements Name,
     }
 
     private final String name;
+
+    /**
+     * Returns the file extension without the '.' if one was present.
+     */
+    public Optional<FileExtension> fileExtension() {
+        if (null == this.fileExtension) {
+            this.fileExtension = FileExtension.extract(this.name);
+        }
+        return this.fileExtension;
+    }
+
+    /**
+     * A cached copy of the extracted {@link FileExtension}.
+     */
+    transient Optional<FileExtension> fileExtension;
 
     // Object...........................................................................................................
 
