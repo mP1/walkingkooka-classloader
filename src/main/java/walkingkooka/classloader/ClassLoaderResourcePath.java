@@ -19,6 +19,7 @@ package walkingkooka.classloader;
 
 import walkingkooka.naming.Path;
 import walkingkooka.naming.PathSeparator;
+import walkingkooka.reflect.ClassName;
 import walkingkooka.text.CharSequences;
 
 import java.util.Objects;
@@ -67,6 +68,20 @@ final public class ClassLoaderResourcePath
         } catch (final IllegalArgumentException cause) {
             throw new IllegalArgumentException("Failed to parse " + CharSequences.quote(path) + ", message: " + cause.getMessage(), cause);
         }
+    }
+
+    /**
+     * Creates a {@link ClassLoaderResourcePath} for the given {@link ClassName}.
+     */
+    public static ClassLoaderResourcePath from(final ClassName name) {
+        Objects.requireNonNull(name, "name");
+
+        return parse(
+                SEPARATOR.string() +
+                        name.value()
+                                .replace('.', SEPARATOR.character()) +
+                        ".class"
+        );
     }
 
     /**

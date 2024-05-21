@@ -21,11 +21,14 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.collect.set.Sets;
 import walkingkooka.naming.PathSeparator;
 import walkingkooka.naming.PathTesting;
+import walkingkooka.reflect.ClassName;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.test.ParseStringTesting;
 
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoaderResourcePath, ClassLoaderResourceName>,
         ClassTesting2<ClassLoaderResourcePath>,
@@ -124,6 +127,24 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     @Override
     public Class<? extends RuntimeException> parseStringFailedExpected(final Class<? extends RuntimeException> expected) {
         return expected;
+    }
+
+    // fromClassName....................................................................................................
+
+    @Test
+    public void testFromClassNameNullFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> ClassLoaderResourcePath.from(null)
+        );
+    }
+
+    @Test
+    public void testFromClassName() {
+        this.checkEquals(
+                ClassLoaderResourcePath.parse("/java/lang/String.class"),
+                ClassLoaderResourcePath.from(ClassName.fromClass(String.class))
+        );
     }
 
     // path.............................................................................................................
