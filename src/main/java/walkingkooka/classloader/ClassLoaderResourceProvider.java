@@ -13,5 +13,5 @@ public interface ClassLoaderResourceProvider {
     /**
      * Returns the class for the given {@link ClassName}.
      */
-    Optional<ClassLoaderResource> classFile(final ClassName name);
+    Optional<ClassLoaderResource> load(final ClassLoaderResourcePath path);
 }
