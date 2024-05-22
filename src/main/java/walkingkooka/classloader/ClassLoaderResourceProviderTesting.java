@@ -21,7 +21,7 @@ import walkingkooka.test.Testing;
 
 import java.util.Optional;
 
-public interface ClassLoaderProviderTesting extends Testing {
+public interface ClassLoaderResourceProviderTesting extends Testing {
 
     default void loadAndCheck(final ClassLoaderResourceProvider provider,
                               final ClassLoaderResourcePath path) {
