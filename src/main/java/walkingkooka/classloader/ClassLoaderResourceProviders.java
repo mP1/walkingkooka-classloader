@@ -24,8 +24,8 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     /**
      * {@see ClassLoaderResourceProviderClassLoader}
      */
-    public static ClassLoader with(final ClassLoader parent,
-                                   final ClassLoaderResourceProvider provider) {
+    public static ClassLoader classLoader(final ClassLoader parent,
+                                          final ClassLoaderResourceProvider provider) {
         return ClassLoaderResourceProviderClassLoader.with(
                 parent,
                 provider
