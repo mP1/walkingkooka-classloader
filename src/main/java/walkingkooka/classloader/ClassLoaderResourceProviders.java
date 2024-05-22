@@ -22,6 +22,17 @@ import walkingkooka.reflect.PublicStaticHelper;
 public final class ClassLoaderResourceProviders implements PublicStaticHelper {
 
     /**
+     * {@see ClassLoaderResourceProviderClassLoader}
+     */
+    public static ClassLoader with(final ClassLoader parent,
+                                   final ClassLoaderResourceProvider provider) {
+        return ClassLoaderResourceProviderClassLoader.with(
+                parent,
+                provider
+        );
+    }
+
+    /**
      * {@see FakeClassLoaderResourceProvider}
      */
     public static ClassLoaderResourceProvider fake() {

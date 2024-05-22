@@ -11,6 +11,8 @@ Goals
 
 - Provide support for hot deployments.
 - Provide support for starting/stopping plugins.
+- [ClassLoaderResourceProviderClassLoader](https://github.com/mP1/walkingkooka-classloader/blob/master/src/main/java/walkingkooka/classloader/ClassLoaderResourceProviderClassLoader.java) 
+  loads classes and resources using the provided [ClassLoaderResourceProvider](https://github.com/mP1/walkingkooka-classloader/blob/master/src/main/java/walkingkooka/classloader/ClassLoaderResourceProvider.java) 
 
 Non goals
 
