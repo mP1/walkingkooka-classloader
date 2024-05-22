@@ -19,6 +19,7 @@ package walkingkooka.classloader;
 
 import walkingkooka.reflect.PublicStaticHelper;
 
+import java.util.Map;
 import java.util.jar.JarFile;
 
 public final class ClassLoaderResourceProviders implements PublicStaticHelper {
@@ -46,6 +47,13 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
      */
     public static ClassLoaderResourceProvider fake() {
         return new FakeClassLoaderResourceProvider();
+    }
+
+    /**
+     * {@see MapClassLoaderResourceProvider}
+     */
+    public static ClassLoaderResourceProvider map(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource) {
+        return MapClassLoaderResourceProvider.with(pathToResource);
     }
 
     /**
