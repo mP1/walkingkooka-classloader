@@ -19,6 +19,8 @@ package walkingkooka.classloader;
 
 import walkingkooka.reflect.PublicStaticHelper;
 
+import java.util.jar.JarFile;
+
 public final class ClassLoaderResourceProviders implements PublicStaticHelper {
 
     /**
@@ -30,6 +32,13 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
                 parent,
                 provider
         );
+    }
+
+    /**
+     * {@see JarFileClassLoaderResourceProvider}
+     */
+    public static ClassLoaderResourceProvider jarFile(final JarFile file) {
+        return JarFileClassLoaderResourceProvider.with(file);
     }
 
     /**
