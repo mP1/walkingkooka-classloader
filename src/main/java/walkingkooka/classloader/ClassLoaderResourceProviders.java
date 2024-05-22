@@ -44,17 +44,17 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     }
 
     /**
-     * {@see JarFileClassLoaderResourceProvider}
-     */
-    public static ClassLoaderResourceProvider jarFile(final JarFile file) {
-        return JarFileClassLoaderResourceProvider.with(file);
-    }
-
-    /**
      * {@see FakeClassLoaderResourceProvider}
      */
     public static ClassLoaderResourceProvider fake() {
         return new FakeClassLoaderResourceProvider();
+    }
+
+    /**
+     * {@see JarFileClassLoaderResourceProvider}
+     */
+    public static ClassLoaderResourceProvider jarFile(final JarFile file) {
+        return JarFileClassLoaderResourceProvider.with(file);
     }
 
     /**
