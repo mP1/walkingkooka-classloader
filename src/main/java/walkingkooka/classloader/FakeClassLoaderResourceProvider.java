@@ -17,21 +17,11 @@
 
 package walkingkooka.classloader;
 
-import walkingkooka.reflect.PublicStaticHelper;
+import java.util.Optional;
 
-public final class ClassLoaderResourceProviders implements PublicStaticHelper {
-
-    /**
-     * {@see FakeClassLoaderResourceProvider}
-     */
-    public static ClassLoaderResourceProvider fake() {
-        return new FakeClassLoaderResourceProvider();
-    }
-
-    /**
-     * Stop creation
-     */
-    private ClassLoaderResourceProviders() {
+public class FakeClassLoaderResourceProvider implements ClassLoaderResourceProvider{
+    @Override
+    public Optional<ClassLoaderResource> load(final ClassLoaderResourcePath path) {
         throw new UnsupportedOperationException();
     }
 }
