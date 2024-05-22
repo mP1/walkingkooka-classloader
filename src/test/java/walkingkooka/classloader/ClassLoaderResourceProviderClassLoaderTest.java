@@ -20,6 +20,7 @@ package walkingkooka.classloader;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Binary;
 import walkingkooka.Value;
+import walkingkooka.collect.list.Lists;
 import walkingkooka.reflect.ClassName;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
@@ -189,6 +190,84 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
         );
     }
 
+
+    // getResources.....................................................................................................
+
+    @Test
+    public void testGetResources() throws Exception {
+        final String path = "walkingkooka/classloader/test-resource-123.txt";
+        final byte[] value = new byte[] {
+                '1',
+                '2',
+                '3'
+        };
+
+        this.getResourcesAndCheck(
+                ClassLoader.getSystemClassLoader(),
+                path,
+                value
+        );
+
+        this.getResourcesAndCheck(
+                ClassLoaderResourceProviderClassLoader.with(//
+                        ClassLoaderResourceProviderClassLoaderTest.PARENT_CLASS_LOADER, //
+                        new ClassLoaderResourceProvider() {
+
+                            @Override
+                            public Optional<ClassLoaderResource> load(final ClassLoaderResourcePath p) {
+                                checkEquals(ClassLoaderResourcePath.parse("/" + path), p);
+
+                                return Optional.of(
+                                        ClassLoaderResource.with(
+                                                Binary.with(value)
+                                        )
+                                );
+                            }
+                        }
+                ),
+                path,
+                value,
+                value // loaded by both system and custom
+        );
+    }
+
+    @Test
+    public void testGetResources2() throws Exception {
+        final String path = "custom-class-loader-resource.txt";
+        final byte[] value = new byte[] {
+                1,
+                2,
+                3
+        };
+
+        this.getResourcesAndCheck(
+                ClassLoader.getSystemClassLoader(),
+                path,
+                Lists.empty()
+        );
+
+        this.getResourcesAndCheck(
+                ClassLoaderResourceProviderClassLoader.with(//
+                        ClassLoaderResourceProviderClassLoaderTest.PARENT_CLASS_LOADER, //
+                        new ClassLoaderResourceProvider() {
+
+                            @Override
+                            public Optional<ClassLoaderResource> load(final ClassLoaderResourcePath p) {
+                                checkEquals(ClassLoaderResourcePath.parse("/" + path), p);
+
+                                return Optional.of(
+                                        ClassLoaderResource.with(
+                                                Binary.with(value)
+                                        )
+                                );
+                            }
+                        }
+                ),
+                path,
+                value
+        );
+    }
+    
     // loadClass........................................................................................................
 
     @Test

@@ -113,7 +113,7 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
     // public Enumeration<URL> getResources(String name)
     default void getResourcesAndCheck(final ClassLoader classLoader,
                                       final String resourceName,
-                                      final byte... expected) throws IOException {
+                                      final byte[]... expected) throws IOException {
         this.getResourcesAndCheck(
                 classLoader,
                 resourceName,
@@ -123,18 +123,9 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
         );
     }
 
-    default void getResourcesAndCheck(final String resourceName,
-                                      final List<Byte> expected) throws IOException {
-        this.getResourcesAndCheck(
-                this.createClassLoader(),
-                resourceName,
-                expected
-        );
-    }
-
     default void getResourcesAndCheck(final ClassLoader classLoader,
                                       final String resourceName,
-                                      final List<Byte> expected) throws IOException {
+                                      final List<byte[]> expected) throws IOException {
         final Enumeration<URL> urls = classLoader.getResources(resourceName);
         this.checkNotEquals(
                 null,
@@ -142,7 +133,7 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
                 () -> "getResources " + resourceName + " url"
         );
 
-        final List<byte[]> resourceBytes = Lists.array();
+        final List<List<Byte>> resourceBytes = Lists.array();
 
         while (urls.hasMoreElements()) {
             final URL url = urls.nextElement();
@@ -151,15 +142,24 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
             connection.connect();
 
             final InputStream inputStream = connection.getInputStream();
+            final byte[] bytes = inputStream.readAllBytes();
+
             resourceBytes.add(
-                    inputStream.readAllBytes()
+                    IntStream.range(0, bytes.length)
+                            .mapToObj(i -> bytes[i])
+                            .collect(Collectors.toList())
             );
 
             inputStream.close();
         }
 
         this.checkEquals(
-                expected,
+                expected.stream()
+                        .map(
+                                a -> IntStream.range(0, a.length)
+                                            .mapToObj(i -> a[i])
+                                            .collect(Collectors.toList())
+                        ).collect(Collectors.toList()),
                 resourceBytes,
                 "getResources " + resourceName + " inputStream bytes"
         );
