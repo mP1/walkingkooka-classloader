@@ -19,10 +19,18 @@ package walkingkooka.classloader;
 
 import walkingkooka.reflect.PublicStaticHelper;
 
+import java.util.List;
 import java.util.Map;
 import java.util.jar.JarFile;
 
 public final class ClassLoaderResourceProviders implements PublicStaticHelper {
+
+    /**
+     * {@see CascadingClassLoaderResourceProvider}
+     */
+    public static ClassLoaderResourceProvider cascading(final List<ClassLoaderResourceProvider> providers) {
+        return CascadingClassLoaderResourceProvider.with(providers);
+    }
 
     /**
      * {@see ClassLoaderResourceProviderClassLoader}
