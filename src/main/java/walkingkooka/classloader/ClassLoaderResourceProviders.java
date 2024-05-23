@@ -25,6 +25,7 @@ import walkingkooka.reflect.PublicStaticHelper;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -129,6 +130,13 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
      */
     public static ClassLoaderResourceProvider map(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource) {
         return MapClassLoaderResourceProvider.with(pathToResource);
+    }
+
+    /**
+     * {@see UrlClassLoaderClassLoaderResourceProvider}
+     */
+    public static ClassLoaderResourceProvider urlClassLoader(final URLClassLoader urlClassLoader) {
+        return UrlClassLoaderClassLoaderResourceProvider.with(urlClassLoader);
     }
 
     /**
