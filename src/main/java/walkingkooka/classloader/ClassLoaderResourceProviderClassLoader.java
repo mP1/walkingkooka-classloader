@@ -288,6 +288,6 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
      */
     @Override
     public String toString() {
-        return this.getParent() + "->" + this.provider;
+        return this.getClass().getName() + "->" + this.provider;
     }
 }
