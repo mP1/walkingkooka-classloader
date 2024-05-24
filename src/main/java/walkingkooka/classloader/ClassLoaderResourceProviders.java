@@ -108,7 +108,11 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
                 }
             } else {
                 pathToResource.put(
-                        ClassLoaderResourcePath.parse("/" + name),
+                        ClassLoaderResourcePath.parse(
+                                name.startsWith("/") ?
+                                        name :
+                                        "/" + name
+                        ),
                         ClassLoaderResource.with(
                                 Binary.with(bytes)
                         )
