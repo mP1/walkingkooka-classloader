@@ -48,9 +48,4 @@ final class MapClassLoaderResourceProvider implements ClassLoaderResourceProvide
     }
 
     private final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource;
-
-    @Override
-    public String toString() {
-        return this.pathToResource.toString();
-    }
 }
