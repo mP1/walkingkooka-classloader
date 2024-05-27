@@ -64,8 +64,12 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     /**
      * {@see JarFileClassLoaderResourceProvider}
      */
-    public static ClassLoaderResourceProvider jarFile(final JarFile file) {
-        return JarFileClassLoaderResourceProvider.with(file);
+    public static ClassLoaderResourceProvider jarFile(final JarFile file,
+                                                      final LineEnding lineEnding) {
+        return JarFileClassLoaderResourceProvider.with(
+                file,
+                lineEnding
+        );
     }
 
     /**

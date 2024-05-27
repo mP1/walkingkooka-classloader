@@ -21,8 +21,10 @@ import org.junit.jupiter.api.Test;
 import walkingkooka.Binary;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.LineEnding;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.jar.JarFile;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -30,11 +32,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public final class JarFileClassLoaderResourceProviderTest implements ClassLoaderResourceProviderTesting,
         ClassTesting<JarFileClassLoaderResourceProvider> {
 
+    private final static String TEST_JAR_FILE = "./src/test/resources/JarFileClassLoaderResourceProviderTest.jar";
+
+    private final static LineEnding EOL = LineEnding.NL;
+
     @Test
     public void testWithNullJarFileFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> JarFileClassLoaderResourceProvider.with(null)
+                () -> JarFileClassLoaderResourceProvider.with(
+                        null,
+                        EOL
+                )
+        );
+    }
+
+    @Test
+    public void testWithNullLineEndingFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> JarFileClassLoaderResourceProvider.with(
+                        new JarFile(TEST_JAR_FILE),
+                        null
+                )
         );
     }
 
@@ -47,7 +67,7 @@ public final class JarFileClassLoaderResourceProviderTest implements ClassLoader
     }
 
     @Test
-    public void testLoad() throws IOException {
+    public void testLoadResource() throws IOException {
         this.loadAndCheck(
                 this.classLoaderResourceProvider(),
                 ClassLoaderResourcePath.parse("/walkingkooka/classloader/test-resource-123.txt"),
@@ -63,9 +83,23 @@ public final class JarFileClassLoaderResourceProviderTest implements ClassLoader
         );
     }
 
+    @Test
+    public void testLoadDirectory() throws IOException {
+        this.loadAndCheck(
+                this.classLoaderResourceProvider(),
+                ClassLoaderResourcePath.parse("/walkingkooka/classloader"),
+                ClassLoaderResource.with(
+                        Binary.with(
+                                "test-resource-123.txt\n".getBytes(StandardCharsets.UTF_8)
+                        )
+                )
+        );
+    }
+
     private JarFileClassLoaderResourceProvider classLoaderResourceProvider() throws IOException {
         return JarFileClassLoaderResourceProvider.with(
-                new JarFile("./src/test/resources/JarFileClassLoaderResourceProviderTest.jar")
+                new JarFile(TEST_JAR_FILE),
+                EOL
         );
     }
 
