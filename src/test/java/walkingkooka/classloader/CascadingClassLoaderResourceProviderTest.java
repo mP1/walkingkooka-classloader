@@ -23,6 +23,7 @@ import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.LineEnding;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -76,12 +77,16 @@ public class CascadingClassLoaderResourceProviderTest implements ClassLoaderReso
         this.loadAndCheck(
                 CascadingClassLoaderResourceProvider.with(
                         Lists.of(
-                                ClassLoaderResourceProviders.map(Maps.empty()),
+                                ClassLoaderResourceProviders.map(
+                                        Maps.empty(),
+                                        LineEnding.NL
+                                ),
                                 ClassLoaderResourceProviders.map(
                                         Maps.of(
                                                 path,
                                                 resource
-                                        )
+                                        ),
+                                        LineEnding.NL
                                 ),
                                 ClassLoaderResourceProviders.fake()
                         )

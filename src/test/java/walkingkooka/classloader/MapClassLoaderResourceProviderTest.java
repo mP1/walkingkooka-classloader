@@ -22,17 +22,36 @@ import walkingkooka.Binary;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.text.LineEnding;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class MapClassLoaderResourceProviderTest implements ClassLoaderResourceProviderTesting,
         ClassTesting<MapClassLoaderResourceProvider> {
 
+    private final static LineEnding EOL = LineEnding.NL;
+
     @Test
     public void testWithNullJarFileFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> MapClassLoaderResourceProvider.with(null)
+                () -> MapClassLoaderResourceProvider.with(
+                        null,
+                        LineEnding.NL
+                )
+        );
+    }
+
+    @Test
+    public void testWithNullLineEndingFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> MapClassLoaderResourceProvider.with(
+                        Maps.empty(),
+                        null
+                )
         );
     }
 
@@ -45,7 +64,7 @@ public final class MapClassLoaderResourceProviderTest implements ClassLoaderReso
     }
 
     @Test
-    public void testLoad() {
+    public void testLoadResource() {
         this.loadAndCheck(
                 this.classLoaderResourceProvider(),
                 ClassLoaderResourcePath.parse("/walkingkooka/classloader/test-resource-123.txt"),
@@ -56,6 +75,37 @@ public final class MapClassLoaderResourceProviderTest implements ClassLoaderReso
                                         '2',
                                         '3'
                                 }
+                        )
+                )
+        );
+    }
+
+    // new String(this.getClass().getClassLoader().getResourceAsStream("walkingkooka/plugin").readAllBytes())
+    //
+    // ClassLoaderPluginProviderTest.class
+    // ClassLoaderPluginProviderTest$1.class
+    // ClassLoaderPluginProviderTest$TestPlugin.class
+    // ClassLoaderPluginProviderTest$TestPluginImpl.class
+    // ClassLoaderPluginProviderTest$TestPluginProvider.class
+    // PluginInfoTest.class
+    // PluginNameTest.class
+    // PluginProviderNameTest.class
+    // PluginProvidersTest.class
+    // PluginProviderTestingTest.class
+    // PluginProviderTestingTest$TestPlugin1.class
+    // PluginProviderTestingTest$TestPlugin2.class
+    // PluginProviderTestingTest$TestPluginProvider.class
+    @Test
+    public void testLoadDirectory() {
+        this.loadAndCheck(
+                this.classLoaderResourceProvider(),
+                ClassLoaderResourcePath.parse("/walkingkooka/classloader"),
+                ClassLoaderResource.with(
+                        Binary.with(
+                                (
+                                        "test-resource-123.txt" + EOL +
+                                                "test-resource-234.txt" + EOL
+                                ).getBytes(StandardCharsets.UTF_8)
                         )
                 )
         );
@@ -73,8 +123,29 @@ public final class MapClassLoaderResourceProviderTest implements ClassLoaderReso
                                                 '3'
                                         }
                                 )
+                        ),
+                        ClassLoaderResourcePath.parse("/walkingkooka/classloader/test-resource-234.txt"),
+                        ClassLoaderResource.with(
+                                Binary.with(
+                                        new byte[]{
+                                                '2',
+                                                '3',
+                                                '4'
+                                        }
+                                )
+                        ),
+                        ClassLoaderResourcePath.parse("/walkingkooka/classloader/test/test-resource-456.txt"),
+                        ClassLoaderResource.with(
+                                Binary.with(
+                                        new byte[]{
+                                                '4',
+                                                '5',
+                                                '6'
+                                        }
+                                )
                         )
-                )
+                ),
+                EOL
         );
     }
 

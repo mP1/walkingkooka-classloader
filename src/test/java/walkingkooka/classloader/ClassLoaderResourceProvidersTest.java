@@ -22,6 +22,7 @@ import walkingkooka.Binary;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
+import walkingkooka.text.LineEnding;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,11 +41,31 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
 
     // jarFileWithLibs..................................................................................................
 
+    private final static LineEnding EOL = LineEnding.NL;
+
     @Test
     public void testJarFileWithLibsWithNullInputStreamFails() {
         assertThrows(
                 NullPointerException.class,
-                () -> ClassLoaderResourceProviders.jarFileWithLibs(null)
+                () -> ClassLoaderResourceProviders.jarFileWithLibs(
+                        null,
+                        EOL
+                )
+        );
+    }
+
+    @Test
+    public void testJarFileWithLibsWithNullLineEndingFails() {
+        assertThrows(
+                NullPointerException.class,
+                () -> ClassLoaderResourceProviders.jarFileWithLibs(
+                        new JarInputStream(
+                                new ByteArrayInputStream(
+                                        new byte[0]
+                                )
+                        ),
+                        null
+                )
         );
     }
 
@@ -74,7 +95,8 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
                 new JarInputStream(
                         new ByteArrayInputStream(jar)
-                )
+                ),
+                EOL
         );
 
         this.loadAndCheck(
@@ -135,7 +157,8 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
                 new JarInputStream(
                         new ByteArrayInputStream(jar)
-                )
+                ),
+                EOL
         );
 
         this.loadAndCheck(

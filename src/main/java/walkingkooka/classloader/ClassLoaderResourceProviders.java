@@ -21,6 +21,7 @@ import walkingkooka.Binary;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.collect.map.Maps;
 import walkingkooka.reflect.PublicStaticHelper;
+import walkingkooka.text.LineEnding;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -72,7 +73,8 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
      * This is intended to support JAR file archive with required libraries in a single archive.
      * Note libs ordering is dependent on the order archives appear in the JAR file.
      */
-    public static ClassLoaderResourceProvider jarFileWithLibs(final JarInputStream inputStream) throws IOException {
+    public static ClassLoaderResourceProvider jarFileWithLibs(final JarInputStream inputStream,
+                                                              final LineEnding lineEnding) throws IOException {
         Objects.requireNonNull(inputStream, "inputStream");
 
         final List<ClassLoaderResourceProvider> libs = Lists.array();
@@ -103,7 +105,10 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
             if (name.startsWith("libs/")) {
                 try (final JarInputStream libJarInputStream = new JarInputStream(new ByteArrayInputStream(bytes))) {
                     libs.add(
-                            jarFileWithLibs(libJarInputStream)
+                            jarFileWithLibs(
+                                    libJarInputStream,
+                                    lineEnding
+                            )
                     );
                 }
             } else {
@@ -122,7 +127,10 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
 
         final List<ClassLoaderResourceProvider> all = Lists.array();
         all.add(
-                map(pathToResource)
+                map(
+                        pathToResource,
+                        lineEnding
+                )
         );
         all.addAll(libs);
 
@@ -132,8 +140,12 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     /**
      * {@see MapClassLoaderResourceProvider}
      */
-    public static ClassLoaderResourceProvider map(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource) {
-        return MapClassLoaderResourceProvider.with(pathToResource);
+    public static ClassLoaderResourceProvider map(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource,
+                                                  final LineEnding lineEnding) {
+        return MapClassLoaderResourceProvider.with(
+                pathToResource,
+                lineEnding
+        );
     }
 
     /**

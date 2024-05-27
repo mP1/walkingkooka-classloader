@@ -17,35 +17,69 @@
 
 package walkingkooka.classloader;
 
+import walkingkooka.Binary;
 import walkingkooka.collect.map.Maps;
+import walkingkooka.text.LineEnding;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * A {@link ClassLoaderResourceProvider} that uses the given path as a key to the provided {@link Map}.
  */
 final class MapClassLoaderResourceProvider implements ClassLoaderResourceProvider {
 
-    static MapClassLoaderResourceProvider with(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource) {
+    static MapClassLoaderResourceProvider with(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource,
+                                               final LineEnding lineEnding) {
         Objects.requireNonNull(pathToResource, "pathToResource");
+        Objects.requireNonNull(lineEnding, "lineEnding");
 
         return new MapClassLoaderResourceProvider(
-                Maps.immutable(pathToResource)
+                Maps.immutable(pathToResource),
+                lineEnding
         );
     }
 
-    private MapClassLoaderResourceProvider(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource) {
+    private MapClassLoaderResourceProvider(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource,
+                                           final LineEnding lineEnding) {
         this.pathToResource = pathToResource;
+        this.lineEnding = lineEnding;
     }
 
     @Override
     public Optional<ClassLoaderResource> load(final ClassLoaderResourcePath path) {
-        return Optional.ofNullable(
-                this.pathToResource.get(path)
-        );
+        final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource = this.pathToResource;
+
+        ClassLoaderResource resource = pathToResource.get(path);
+        if (null == resource) {
+            final String lineEnding = this.lineEnding.toString();
+
+            final String listing = pathToResource.keySet()
+                    .stream()
+                    .filter(e -> path.equals(
+                            e.parent()
+                                    .orElse(null)
+                    )).map(e -> e.name().value())
+                    .collect(
+                            Collectors.joining(lineEnding)
+                    );
+            if (false == listing.isEmpty()) {
+                resource = ClassLoaderResource.with(
+                        Binary.with(
+                                listing.concat(lineEnding)
+                                        .getBytes(StandardCharsets.UTF_8)
+                        )
+                );
+            }
+        }
+
+        return Optional.ofNullable(resource);
     }
 
     private final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource;
+
+    private final LineEnding lineEnding;
 }
