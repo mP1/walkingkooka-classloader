@@ -80,6 +80,7 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     public static ClassLoaderResourceProvider jarFileWithLibs(final JarInputStream inputStream,
                                                               final LineEnding lineEnding) throws IOException {
         Objects.requireNonNull(inputStream, "inputStream");
+        Objects.requireNonNull(lineEnding, "lineEnding");
 
         final List<ClassLoaderResourceProvider> libs = Lists.array();
         final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource = Maps.sorted();
