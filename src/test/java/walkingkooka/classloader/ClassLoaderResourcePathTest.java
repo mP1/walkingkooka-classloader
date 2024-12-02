@@ -28,6 +28,7 @@ import walkingkooka.test.ParseStringTesting;
 
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoaderResourcePath, ClassLoaderResourceName>,
@@ -69,6 +70,23 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         this.rootCheck(path);
         this.nameCheck(path, ClassLoaderResourcePath.ROOT_NAME);
         this.parentAbsentCheck(path);
+    }
+
+    @Test
+    public void testParseManifestAllUpperCase() {
+        final String value = "/META-INF/MANIFEST.MF";
+
+        final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse(value);
+
+        assertSame(
+                path,
+                ClassLoaderResourcePath.MANIFEST
+        );
+
+        this.valueCheck(path, value);
+        this.rootNotCheck(path);
+        this.nameCheck(path, ClassLoaderResourceName.with("MANIFEST.MF"));
+        this.parentCheck(path, "/META-INF");
     }
 
     @Test
@@ -159,6 +177,14 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     }
 
     // equals/Compare...................................................................................................
+
+    @Test
+    public void testEqualsManifestDifferentCase() {
+        this.checkEquals(
+                ClassLoaderResourcePath.MANIFEST,
+                ClassLoaderResourcePath.parse("/meta-inf/manifest.mf")
+        );
+    }
 
     @Test
     public void testEqualsDifferentPath() {

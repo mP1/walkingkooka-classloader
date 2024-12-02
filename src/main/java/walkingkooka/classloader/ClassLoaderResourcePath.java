@@ -27,6 +27,7 @@ import java.util.Optional;
 
 /**
  * A {@link Path} that wraps a {@link String} which may contain any character.
+ * Note that the path to the manifest.mf is special-cased and not case sensitive during comparisons/equality checks.
  */
 final public class ClassLoaderResourcePath
         implements Path<ClassLoaderResourcePath, ClassLoaderResourceName>,
@@ -36,6 +37,20 @@ final public class ClassLoaderResourcePath
      * {@link PathSeparator} instance
      */
     public final static PathSeparator SEPARATOR = PathSeparator.requiredAtStart('/');
+
+    private final static String MANIFEST_STRING = "/META-INF/MANIFEST.MF";
+
+    public final static ClassLoaderResourcePath MANIFEST = new ClassLoaderResourcePath(
+            MANIFEST_STRING,
+            ClassLoaderResourceName.with("MANIFEST.MF"),
+            Optional.of(
+                    new ClassLoaderResourcePath(
+                            "/META-INF",
+                            ClassLoaderResourceName.with("META-INF"),
+                            Optional.empty()
+                    )
+            )
+    );
 
     final static ClassLoaderResourceName ROOT_NAME = ClassLoaderResourceName.with(
             ClassLoaderResourcePath.SEPARATOR.string()
@@ -56,6 +71,24 @@ final public class ClassLoaderResourcePath
     public static ClassLoaderResourcePath parse(final String path) {
         SEPARATOR.checkBeginning(path);
 
+        final ClassLoaderResourcePath classLoaderResourcePath;
+
+        switch(path) {
+            case "/":
+                classLoaderResourcePath = ROOT;
+                break;
+            case MANIFEST_STRING:
+                classLoaderResourcePath = MANIFEST;
+                break;
+            default:
+                classLoaderResourcePath = parseNonManifest(path);
+                break;
+        }
+
+        return classLoaderResourcePath;
+    }
+
+    private static ClassLoaderResourcePath parseNonManifest(final String path) {
         try {
             ClassLoaderResourcePath result = ROOT;
 
@@ -187,7 +220,9 @@ final public class ClassLoaderResourcePath
     }
 
     private boolean equals0(final ClassLoaderResourcePath other) {
-        return this.path.equals(other.path);
+        return this.path.equalsIgnoreCase(MANIFEST_STRING) ?
+                this.path.equalsIgnoreCase(other.path) :
+                this.path.equals(other.path);
     }
 
     @Override
