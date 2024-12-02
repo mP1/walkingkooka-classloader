@@ -28,11 +28,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -70,7 +72,65 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
     }
 
     @Test
+    public void testJarFileWithManifest() throws IOException {
+        // Manifest will always end with empty line
+        final String manifest = "Manifest-Version: 1.0\r\nKey1: Value1\r\n\r\n";
+
+        final byte[] jar = createJar(
+                manifest,
+                Maps.empty()
+        );
+
+        final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
+                new JarInputStream(
+                        new ByteArrayInputStream(jar)
+                ),
+                EOL
+        );
+
+        this.loadAndCheck(
+                provider,
+                ClassLoaderResourcePath.MANIFEST,
+                ClassLoaderResource.with(
+                        Binary.with(
+                                manifest.getBytes(StandardCharsets.UTF_8)
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void testJarFileWithManifestDifferentCase() throws IOException {
+        // Manifest will always end with empty line
+        final String manifest = "Manifest-Version: 1.0\r\nKey1: Value1\r\n\r\n";
+
+        final byte[] jar = createJar(
+                manifest,
+                Maps.empty()
+        );
+
+        final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
+                new JarInputStream(
+                        new ByteArrayInputStream(jar)
+                ),
+                EOL
+        );
+
+        this.loadAndCheck(
+                provider,
+                ClassLoaderResourcePath.parse("/meta-inf/manifest.MF"),
+                ClassLoaderResource.with(
+                        Binary.with(
+                                manifest.getBytes(StandardCharsets.UTF_8)
+                        )
+                )
+        );
+    }
+
+    @Test
     public void testJarFileWithLibsWithNoLibs() throws IOException {
+        final String manifest = "Manifest-Version: 1.0\r\nKey1: Value1\r\n";
+
         final byte[] resource1 = new byte[]{
                 '1',
                 '1',
@@ -84,6 +144,7 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         };
 
         final byte[] jar = createJar(
+                manifest,
                 Maps.of(
                         "test/test-resource111.txt",
                         resource1,
@@ -136,6 +197,7 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         };
 
         final byte[] libs = createJar(
+                "Manifest-Version: 1.0",
                 Maps.of(
                         "test/test-resource111.txt",
                         resource1,
@@ -145,6 +207,7 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         );
 
         final byte[] jar = createJar(
+                "Manifest-Version: 1.0",
                 Maps.of(
                         "test/test-resource222.txt",
                         resource2,
@@ -182,9 +245,20 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         );
     }
 
-    private static byte[] createJar(final Map<String, byte[]> contents) throws IOException {
+    private static byte[] createJar(final String manifest,
+                                    final Map<String, byte[]> contents) throws IOException {
         try (final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
-            final JarOutputStream jarOut = new JarOutputStream(bytes);
+            final Manifest manifest1 = new Manifest();
+            manifest1.read(
+                    new ByteArrayInputStream(
+                            manifest.getBytes(Charset.defaultCharset())
+                    )
+            );
+
+            final JarOutputStream jarOut = new JarOutputStream(
+                    bytes,
+                    manifest1
+            );
 
             for (final Map.Entry<String, byte[]> mapEntry : contents.entrySet()) {
                 final JarEntry jarEntry = new JarEntry(mapEntry.getKey());

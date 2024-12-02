@@ -33,6 +33,7 @@ import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
 
 public final class ClassLoaderResourceProviders implements PublicStaticHelper {
 
@@ -84,6 +85,15 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
 
         final List<ClassLoaderResourceProvider> libs = Lists.array();
         final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource = Maps.sorted();
+
+        final Manifest manifest = inputStream.getManifest();
+        if (null != manifest) {
+            pathToResource.put(
+                    ClassLoaderResourcePath.MANIFEST,
+                    manifest(manifest)
+            );
+        }
+
         final byte[] buffer = new byte[1000];
 
         for (; ; ) {
@@ -140,6 +150,17 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
         all.addAll(libs);
 
         return cascading(all);
+    }
+
+    private static ClassLoaderResource manifest(final Manifest manifest) throws IOException {
+        try(final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+            manifest.write(bytes);
+            bytes.flush();
+
+            return ClassLoaderResource.with(
+                    Binary.with(bytes.toByteArray())
+            );
+        }
     }
 
     /**
