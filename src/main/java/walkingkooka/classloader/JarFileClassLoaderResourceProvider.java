@@ -5,12 +5,14 @@ import walkingkooka.collect.iterable.Iterables;
 import walkingkooka.collect.iterator.Iterators;
 import walkingkooka.text.LineEnding;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 /**
  * A {@link ClassLoaderResourceProvider} that scans a jar file for resources.
@@ -43,6 +45,30 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
         Objects.requireNonNull(path, "path");
 
         try {
+        return path.value().equalsIgnoreCase("/META-INF/MANIFEST.MF") ?
+                this.loadManifest() :
+                this.loadNonManifest(path);
+        } catch (final IOException cause) {
+            throw new ClassFormatError("Error reading " + path + " from jar file, " + cause.getMessage());
+        }
+    }
+
+    private Optional<ClassLoaderResource> loadManifest() throws IOException {
+        final Manifest manifest = this.file.getManifest();
+
+        try(final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+            manifest.write(bytes);
+            bytes.flush();
+
+            return Optional.ofNullable(
+                    ClassLoaderResource.with(
+                            Binary.with(bytes.toByteArray())
+                    )
+            );
+        }
+    }
+
+    private Optional<ClassLoaderResource> loadNonManifest(final ClassLoaderResourcePath path) throws IOException {
             ClassLoaderResource resource = null;
 
             // drop the leading slash from path#value
@@ -59,9 +85,6 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
             }
 
             return Optional.ofNullable(resource);
-        } catch (final IOException cause) {
-            throw new ClassFormatError("Error reading " + path + " from jar file, " + cause.getMessage());
-        }
     }
 
     /**
