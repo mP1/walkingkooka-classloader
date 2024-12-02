@@ -24,6 +24,7 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.LineEnding;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.jar.JarFile;
 
@@ -63,6 +64,21 @@ public final class JarFileClassLoaderResourceProviderTest implements ClassLoader
         this.loadAndCheck(
                 this.classLoaderResourceProvider(),
                 ClassLoaderResourcePath.parse("/walkingkooka/classloader/UNKNOWN.txt")
+        );
+    }
+
+    @Test
+    public void testLoadResourceManifest() throws IOException {
+        this.loadAndCheck(
+                this.classLoaderResourceProvider(),
+                ClassLoaderResourcePath.parse("/META-INF/Manifest.MF"),
+                ClassLoaderResource.with(
+                        Binary.with(
+                                ("Manifest-Version: 1.0\r\n" +
+                                        "Created-By: 11.0.5 (Oracle Corporation)\r\n\r\n")
+                                        .getBytes(Charset.defaultCharset())
+                        )
+                )
         );
     }
 
