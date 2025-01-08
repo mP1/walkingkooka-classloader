@@ -26,43 +26,43 @@ import java.net.URLConnection;
  */
 final class ClassLoaderResourceProviderClassLoaderUrlConnection extends URLConnection {
 
-  /**
-   * Factory that is called by {@link ClassLoaderResourceProviderClassLoaderUrlStreamHandler}
-   */
-  static ClassLoaderResourceProviderClassLoaderUrlConnection with(final URL url,
-                                                                  final InputStream input) {
-    return new ClassLoaderResourceProviderClassLoaderUrlConnection(url, input);
-  }
+    /**
+     * Factory that is called by {@link ClassLoaderResourceProviderClassLoaderUrlStreamHandler}
+     */
+    static ClassLoaderResourceProviderClassLoaderUrlConnection with(final URL url,
+                                                                    final InputStream input) {
+        return new ClassLoaderResourceProviderClassLoaderUrlConnection(url, input);
+    }
 
-  /**
-   * Private constructor use factory
-   */
-  private ClassLoaderResourceProviderClassLoaderUrlConnection(final URL url,
-                                                              final InputStream input) {
-    super(url);
-    this.input = input;
-  }
+    /**
+     * Private constructor use factory
+     */
+    private ClassLoaderResourceProviderClassLoaderUrlConnection(final URL url,
+                                                                final InputStream input) {
+        super(url);
+        this.input = input;
+    }
 
-  @Override
-  public void connect() {
-    // nop
-  }
+    @Override
+    public void connect() {
+        // nop
+    }
 
-  @Override
-  public InputStream getInputStream() {
-    return this.input;
-  }
+    @Override
+    public InputStream getInputStream() {
+        return this.input;
+    }
 
-  /**
-   * The returned {@link InputStream}.
-   */
-  private final InputStream input;
+    /**
+     * The returned {@link InputStream}.
+     */
+    private final InputStream input;
 
-  /**
-   * Returns {@link URL#toString()}
-   */
-  @Override
-  public String toString() {
-    return this.url.toString();
-  }
+    /**
+     * Returns {@link URL#toString()}
+     */
+    @Override
+    public String toString() {
+        return this.url.toString();
+    }
 }

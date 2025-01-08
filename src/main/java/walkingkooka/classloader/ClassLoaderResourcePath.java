@@ -73,7 +73,7 @@ final public class ClassLoaderResourcePath
 
         final ClassLoaderResourcePath classLoaderResourcePath;
 
-        switch(path) {
+        switch (path) {
             case "/":
                 classLoaderResourcePath = ROOT;
                 break;

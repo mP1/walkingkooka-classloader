@@ -61,7 +61,7 @@ public final class ClassLoaderResource implements Value<Binary> {
 
     @Override
     public boolean equals(final Object other) {
-        return this == other || other instanceof ClassLoaderResource && this.equals0((ClassLoaderResource)other);
+        return this == other || other instanceof ClassLoaderResource && this.equals0((ClassLoaderResource) other);
     }
 
     private boolean equals0(final ClassLoaderResource other) {

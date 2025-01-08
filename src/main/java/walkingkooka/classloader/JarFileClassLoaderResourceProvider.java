@@ -45,9 +45,9 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
         Objects.requireNonNull(path, "path");
 
         try {
-        return path.value().equalsIgnoreCase("/META-INF/MANIFEST.MF") ?
-                this.loadManifest() :
-                this.loadNonManifest(path);
+            return path.value().equalsIgnoreCase("/META-INF/MANIFEST.MF") ?
+                    this.loadManifest() :
+                    this.loadNonManifest(path);
         } catch (final IOException cause) {
             throw new ClassFormatError("Error reading " + path + " from jar file, " + cause.getMessage());
         }
@@ -56,7 +56,7 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
     private Optional<ClassLoaderResource> loadManifest() throws IOException {
         final Manifest manifest = this.file.getManifest();
 
-        try(final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+        try (final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
             manifest.write(bytes);
             bytes.flush();
 
@@ -69,22 +69,22 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
     }
 
     private Optional<ClassLoaderResource> loadNonManifest(final ClassLoaderResourcePath path) throws IOException {
-            ClassLoaderResource resource = null;
+        ClassLoaderResource resource = null;
 
-            // drop the leading slash from path#value
-            final JarEntry entry = this.file.getJarEntry(
-                    path.value()
-                            .substring(1)
-            );
-            if (null != entry) {
-                if (entry.isDirectory()) {
-                    resource = listing(path);
-                } else {
-                    resource = resource(entry);
-                }
+        // drop the leading slash from path#value
+        final JarEntry entry = this.file.getJarEntry(
+                path.value()
+                        .substring(1)
+        );
+        if (null != entry) {
+            if (entry.isDirectory()) {
+                resource = listing(path);
+            } else {
+                resource = resource(entry);
             }
+        }
 
-            return Optional.ofNullable(resource);
+        return Optional.ofNullable(resource);
     }
 
     /**
