@@ -19,7 +19,7 @@ package walkingkooka.classloader;
 
 import java.util.Optional;
 
-public class FakeClassLoaderResourceProvider implements ClassLoaderResourceProvider{
+public class FakeClassLoaderResourceProvider implements ClassLoaderResourceProvider {
     @Override
     public Optional<ClassLoaderResource> load(final ClassLoaderResourcePath path) {
         throw new UnsupportedOperationException();

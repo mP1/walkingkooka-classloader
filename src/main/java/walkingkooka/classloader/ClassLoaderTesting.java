@@ -157,8 +157,8 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
                 expected.stream()
                         .map(
                                 a -> IntStream.range(0, a.length)
-                                            .mapToObj(i -> a[i])
-                                            .collect(Collectors.toList())
+                                        .mapToObj(i -> a[i])
+                                        .collect(Collectors.toList())
                         ).collect(Collectors.toList()),
                 resourceBytes,
                 "getResources " + resourceName + " inputStream bytes"
@@ -203,12 +203,12 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
         this.checkEquals(
                 expected,
                 null != inputStream ?
-                inputStream.readAllBytes() :
-                null,
+                        inputStream.readAllBytes() :
+                        null,
                 "getResourceAsStream " + resourceName + " inputStream bytes"
         );
 
-        if(null!= inputStream) {
+        if (null != inputStream) {
             inputStream.close();
         }
     }

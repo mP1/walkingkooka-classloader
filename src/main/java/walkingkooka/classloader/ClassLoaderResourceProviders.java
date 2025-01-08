@@ -153,7 +153,7 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     }
 
     private static ClassLoaderResource manifest(final Manifest manifest) throws IOException {
-        try(final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+        try (final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
             manifest.write(bytes);
             bytes.flush();
 

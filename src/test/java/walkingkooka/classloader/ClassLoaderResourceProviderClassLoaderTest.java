@@ -77,7 +77,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
     @Test
     public void testGetResource() throws Exception {
         final String path = "walkingkooka/classloader/test-resource-123.txt";
-        final byte[] value = new byte[] {
+        final byte[] value = new byte[]{
                 '1',
                 '2',
                 '3'
@@ -114,7 +114,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
     @Test
     public void testGetResource2() throws Exception {
         final String path = "custom-class-loader-resource.txt";
-        final byte[] value = new byte[] {
+        final byte[] value = new byte[]{
                 1,
                 2,
                 3
@@ -153,7 +153,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
     @Test
     public void testGetResourceAsStream() throws Exception {
         final String path = "custom-class-loader-resource2.txt";
-        final byte[] value = new byte[] {
+        final byte[] value = new byte[]{
                 1,
                 2,
                 3
@@ -196,7 +196,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
     @Test
     public void testGetResources() throws Exception {
         final String path = "walkingkooka/classloader/test-resource-123.txt";
-        final byte[] value = new byte[] {
+        final byte[] value = new byte[]{
                 '1',
                 '2',
                 '3'
@@ -234,7 +234,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
     @Test
     public void testGetResources2() throws Exception {
         final String path = "custom-class-loader-resource.txt";
-        final byte[] value = new byte[] {
+        final byte[] value = new byte[]{
                 1,
                 2,
                 3
@@ -267,7 +267,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
                 value
         );
     }
-    
+
     // loadClass........................................................................................................
 
     @Test

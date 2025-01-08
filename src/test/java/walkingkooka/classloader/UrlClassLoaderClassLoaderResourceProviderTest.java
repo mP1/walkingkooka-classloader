@@ -70,29 +70,29 @@ public final class UrlClassLoaderClassLoaderResourceProviderTest implements Clas
                         Binary.with(
                                 (
                                         "CascadingClassLoaderResourceProviderTest.class\n" +
-                                        "ClassLoaderResourceNameTest.class\n" +
-                                        "ClassLoaderResourcePathTest.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$1.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$10.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$2.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$3.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$4.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$5.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$6.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$7.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$8.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderTest$9.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderUrlConnectionTest.class\n" +
-                                        "ClassLoaderResourceProviderClassLoaderUrlStreamHandlerTest.class\n" +
-                                        "ClassLoaderResourceProvidersTest.class\n" +
-                                        "ClassLoaderResourceTest.class\n" +
-                                        "JarFileClassLoaderResourceProviderTest.class\n" +
-                                        "MapClassLoaderResourceProviderTest.class\n" +
-                                        "TestClass.class\n" +
-                                        "TestInterface.class\n" +
-                                        "test-resource-123.txt\n" +
-                                        "UrlClassLoaderClassLoaderResourceProviderTest.class\n"
+                                                "ClassLoaderResourceNameTest.class\n" +
+                                                "ClassLoaderResourcePathTest.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$1.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$10.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$2.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$3.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$4.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$5.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$6.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$7.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$8.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderTest$9.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderUrlConnectionTest.class\n" +
+                                                "ClassLoaderResourceProviderClassLoaderUrlStreamHandlerTest.class\n" +
+                                                "ClassLoaderResourceProvidersTest.class\n" +
+                                                "ClassLoaderResourceTest.class\n" +
+                                                "JarFileClassLoaderResourceProviderTest.class\n" +
+                                                "MapClassLoaderResourceProviderTest.class\n" +
+                                                "TestClass.class\n" +
+                                                "TestInterface.class\n" +
+                                                "test-resource-123.txt\n" +
+                                                "UrlClassLoaderClassLoaderResourceProviderTest.class\n"
                                 ).getBytes(StandardCharsets.UTF_8)
                         )
                 )
