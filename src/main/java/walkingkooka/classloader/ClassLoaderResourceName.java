@@ -34,7 +34,7 @@ public final class ClassLoaderResourceName implements Name,
     /**
      * Resource names are case-sensitive.
      */
-    private final static CaseSensitivity CASE_SENSITIVITY = CaseSensitivity.SENSITIVE;
+    final static CaseSensitivity CASE_SENSITIVITY = CaseSensitivity.SENSITIVE;
 
     /**
      * Factory that creates a new {@link ClassLoaderResourceName}
