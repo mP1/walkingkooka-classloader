@@ -176,6 +176,94 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         this.parentAbsentCheck(path);
     }
 
+    // appendName.......................................................................................................
+
+    @Test
+    public void testAppendNameToRoot2() {
+        final ClassLoaderResourceName name = ClassLoaderResourceName.with("name1");
+
+        final ClassLoaderResourcePath path = ClassLoaderResourcePath.ROOT.append(name);
+        this.rootNotCheck(path);
+        this.valueCheck(path, "/name1");
+        this.nameCheck(
+                path,
+                name
+        );
+    }
+
+    @Test
+    public void testAppendNameToNonRoot() {
+        final ClassLoaderResourcePath parent = ClassLoaderResourcePath.parse("/parent1");
+        final ClassLoaderResourceName name = ClassLoaderResourceName.with("name2");
+
+        final ClassLoaderResourcePath path = parent.append(name);
+        this.rootNotCheck(path);
+        this.valueCheck(path, "/parent1/name2");
+        this.nameCheck(
+                path,
+                name
+        );
+    }
+
+    // appendPath.......................................................................................................
+
+    @Test
+    public void testAppendPathToRoot2() {
+        final ClassLoaderResourceName name = ClassLoaderResourceName.with("name1");
+
+        final ClassLoaderResourcePath parent = ClassLoaderResourcePath.ROOT.append(name);
+        this.rootNotCheck(parent);
+        this.valueCheck(parent, "/name1");
+        this.nameCheck(
+                parent,
+                name
+        );
+    }
+
+    @Test
+    public void testAppendPathToNonRoot() {
+        final ClassLoaderResourcePath parent = ClassLoaderResourcePath.parse("/parent1");
+        final ClassLoaderResourcePath path2 = ClassLoaderResourcePath.parse("/path2");
+
+        final ClassLoaderResourcePath path = parent.append(path2);
+        this.rootNotCheck(path);
+        this.valueCheck(
+                path,
+                "/parent1/path2"
+        );
+        this.nameCheck(
+                path,
+                ClassLoaderResourceName.with("path2")
+        );
+        this.parentCheck(
+                path,
+                "/parent1"
+        );
+    }
+
+    @Test
+    public void testAppendPathToNonRootTwice() {
+        final ClassLoaderResourcePath parent = ClassLoaderResourcePath.parse("/parent1");
+        final ClassLoaderResourcePath path2 = ClassLoaderResourcePath.parse("/path2");
+        final ClassLoaderResourcePath path34 = ClassLoaderResourcePath.parse("/path3/path4");
+
+        final ClassLoaderResourcePath path = parent.append(path2)
+                .append(path34);
+        this.rootNotCheck(path);
+        this.valueCheck(
+                path,
+                "/parent1/path2/path3/path4"
+        );
+        this.nameCheck(
+                path,
+                ClassLoaderResourceName.with("path4")
+        );
+        this.parentCheck(
+                path,
+                "/parent1/path2/path3"
+        );
+    }
+
     // equals/Compare...................................................................................................
 
     @Test

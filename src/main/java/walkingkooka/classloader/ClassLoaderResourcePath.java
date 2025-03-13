@@ -129,40 +129,39 @@ final public class ClassLoaderResourcePath
         this.parent = parent;
     }
 
+    // value............................................................................................................
+
+    @Override
+    public String value() {
+        return this.path;
+    }
+
     private final String path;
 
-    // Path
+    // append...........................................................................................................
 
     @Override
     public ClassLoaderResourcePath append(final ClassLoaderResourceName name) {
         Objects.requireNonNull(name, "name");
 
-        if (ClassLoaderResourcePath.ROOT_NAME.equals(name)) {
-            throw new IllegalArgumentException(ClassLoaderResourcePath.CANNOT_APPEND_ROOT_NAME);
-        }
+        return ClassLoaderResourcePath.ROOT_NAME.equals(name) ?
+                this :
+                this.appendNonRootName(name);
+    }
 
+    private ClassLoaderResourcePath appendNonRootName(final ClassLoaderResourceName name) {
         final StringBuilder path = new StringBuilder();
+        path.append(this.path);
         if (false == this.isRoot()) {
-            path.append(this.path);
+            path.append(SEPARATOR);
         }
-        path.append(ClassLoaderResourcePath.SEPARATOR.character());
         path.append(name.value());
 
         return new ClassLoaderResourcePath(
-                path.toString(),
+                path.toString(), // path
                 name,
-                Optional.of(this)
+                Optional.of(this) // parent
         );
-    }
-
-    /**
-     * Thrown when attempting to add the root name to this {@link ClassLoaderResourcePath}.
-     */
-    private final static String CANNOT_APPEND_ROOT_NAME = "Cannot append root name.";
-
-    @Override
-    public String value() {
-        return this.path;
     }
 
     private final Optional<ClassLoaderResourcePath> parent;
