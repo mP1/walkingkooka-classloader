@@ -201,9 +201,14 @@ final public class ClassLoaderResourcePath
     // Comparable.......................................................................................................
 
     @Override
-    public int compareTo(final ClassLoaderResourcePath path) {
-        Objects.requireNonNull(path, "path");
-        return this.path.compareTo(path.path);
+    public int compareTo(final ClassLoaderResourcePath other) {
+        Objects.requireNonNull(other, "other");
+
+        return ClassLoaderResourceName.CASE_SENSITIVITY.comparator()
+                .compare(
+                        this.path,
+                        other.path
+                );
     }
 
     // Object...........................................................................................................
@@ -222,7 +227,7 @@ final public class ClassLoaderResourcePath
     private boolean equals0(final ClassLoaderResourcePath other) {
         return this.path.equalsIgnoreCase(MANIFEST_STRING) ?
                 this.path.equalsIgnoreCase(other.path) :
-                this.path.equals(other.path);
+                ClassLoaderResourceName.CASE_SENSITIVITY.equals(this.path, other.path);
     }
 
     @Override
