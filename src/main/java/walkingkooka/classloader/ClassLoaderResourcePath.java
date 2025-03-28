@@ -89,16 +89,35 @@ final public class ClassLoaderResourcePath
     }
 
     private static ClassLoaderResourcePath parseNonManifest(final String path) {
+        boolean dontWrap = false;
+
         try {
             ClassLoaderResourcePath result = ROOT;
 
             if (path.length() > 1) {
-                for (String component : path.substring(1).split(SEPARATOR.string())) {
-                    result = result.append(ClassLoaderResourceName.with(component));
+                for (final String component : path.substring(1).split(SEPARATOR.string())) {
+                    switch(component) {
+                        case ".":
+                            break;
+                        case "..":
+                            dontWrap = true;
+                            result = result.parent()
+                                    .orElseThrow(() -> new IllegalArgumentException("Invalid path " + CharSequences.quoteAndEscape(path)));
+                            dontWrap = false;
+                            break;
+                        default:
+                            result = result.append(
+                                    ClassLoaderResourceName.with(component)
+                            );
+                            break;
+                    }
                 }
             }
             return result;
         } catch (final IllegalArgumentException cause) {
+            if(dontWrap) {
+                throw cause;
+            }
             throw new IllegalArgumentException("Failed to parse " + CharSequences.quote(path) + ", message: " + cause.getMessage(), cause);
         }
     }
@@ -144,9 +163,18 @@ final public class ClassLoaderResourcePath
     public ClassLoaderResourcePath append(final ClassLoaderResourceName name) {
         Objects.requireNonNull(name, "name");
 
-        return ClassLoaderResourcePath.ROOT_NAME.equals(name) ?
-                this :
-                this.appendNonRootName(name);
+        final ClassLoaderResourcePath appended;
+
+        switch (name.value()) {
+            case "/":
+                appended = this;
+                break;
+            default:
+                appended = this.appendNonRootName(name);
+                break;
+        }
+
+        return appended;
     }
 
     private ClassLoaderResourcePath appendNonRootName(final ClassLoaderResourceName name) {

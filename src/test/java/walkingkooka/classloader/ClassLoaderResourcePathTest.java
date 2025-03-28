@@ -130,7 +130,91 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         this.parentCheck(parent, "/path");
     }
 
+    @Test
+    public void testParseIncludesDot() {
+        final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/./path2/./path3");
+        this.valueCheck(
+                path,
+                "/path1/path2/path3"
+        );
+        this.rootNotCheck(path);
+        this.nameCheck(
+                path,
+                ClassLoaderResourceName.with("path3")
+        );
+
+        this.parentCheck(
+                path,
+                "/path1/path2"
+        );
+    }
+
+    @Test
+    public void testParseIncludesTrailingDot() {
+        final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/path2/path3/.");
+        this.valueCheck(
+                path,
+                "/path1/path2/path3"
+        );
+        this.rootNotCheck(path);
+        this.nameCheck(
+                path,
+                ClassLoaderResourceName.with("path3")
+        );
+
+        this.parentCheck(
+                path,
+                "/path1/path2"
+        );
+    }
+
+    @Test
+    public void testParseIncludesDoubleDot() {
+        final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/./path2/../path3");
+        this.valueCheck(
+                path,
+                "/path1/path3"
+        );
+        this.rootNotCheck(path);
+        this.nameCheck(
+                path,
+                ClassLoaderResourceName.with("path3")
+        );
+
+        this.parentCheck(
+                path,
+                "/path1"
+        );
+    }
+
+    @Test
+    public void testParseIncludesTrailingDoubleDot() {
+        final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/path2/path3/..");
+        this.valueCheck(
+                path,
+                "/path1/path2"
+        );
+        this.rootNotCheck(path);
+        this.nameCheck(
+                path,
+                ClassLoaderResourceName.with("path2")
+        );
+
+        this.parentCheck(
+                path,
+                "/path1"
+        );
+    }
+
     // ParseStringTesting ..............................................................................................
+
+    @Test
+    public void testParseStartsWithDoubleDotFails() {
+        this.parseStringFails(
+                "/../hello",
+                new IllegalArgumentException("Invalid path \"/../hello\"")
+        );
+    }
 
     @Override
     public ClassLoaderResourcePath parseString(final String text) {
