@@ -95,7 +95,7 @@ public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoa
 
     @Override
     public CaseSensitivity caseSensitivity() {
-        return CaseSensitivity.fileSystem();
+        return CaseSensitivity.SENSITIVE;
     }
 
     @Override
