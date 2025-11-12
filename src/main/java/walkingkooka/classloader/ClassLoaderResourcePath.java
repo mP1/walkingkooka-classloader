@@ -33,10 +33,14 @@ final public class ClassLoaderResourcePath
         implements Path<ClassLoaderResourcePath, ClassLoaderResourceName>,
         Comparable<ClassLoaderResourcePath> {
 
+    private final static String SEPARATOR_STRING = "/";
+
     /**
      * {@link PathSeparator} instance
      */
-    public final static PathSeparator SEPARATOR = PathSeparator.requiredAtStart('/');
+    public final static PathSeparator SEPARATOR = PathSeparator.requiredAtStart(
+            SEPARATOR_STRING.charAt(0)
+    );
 
     private final static String MANIFEST_STRING = "/META-INF/MANIFEST.MF";
 
@@ -74,7 +78,7 @@ final public class ClassLoaderResourcePath
         final ClassLoaderResourcePath classLoaderResourcePath;
 
         switch (path) {
-            case "/":
+            case SEPARATOR_STRING:
                 classLoaderResourcePath = ROOT;
                 break;
             case MANIFEST_STRING:
@@ -166,7 +170,7 @@ final public class ClassLoaderResourcePath
         final ClassLoaderResourcePath appended;
 
         switch (name.value()) {
-            case "/":
+            case SEPARATOR_STRING:
                 appended = this;
                 break;
             default:
