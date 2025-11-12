@@ -97,9 +97,9 @@ final public class ClassLoaderResourcePath
             if (path.length() > 1) {
                 for (final String component : path.substring(1).split(SEPARATOR.string())) {
                     switch(component) {
-                        case ".":
+                        case CURRENT:
                             break;
-                        case "..":
+                        case PARENT:
                             dontWrap = true;
                             result = result.parent()
                                     .orElseThrow(() -> new IllegalArgumentException("Invalid path " + CharSequences.quoteAndEscape(path)));
