@@ -50,8 +50,8 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     public static ClassLoader classLoader(final ClassLoader parent,
                                           final ClassLoaderResourceProvider provider) {
         return ClassLoaderResourceProviderClassLoader.with(
-                parent,
-                provider
+            parent,
+            provider
         );
     }
 
@@ -68,8 +68,8 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     public static ClassLoaderResourceProvider jarFile(final JarFile file,
                                                       final LineEnding lineEnding) {
         return JarFileClassLoaderResourceProvider.with(
-                file,
-                lineEnding
+            file,
+            lineEnding
         );
     }
 
@@ -89,8 +89,8 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
         final Manifest manifest = inputStream.getManifest();
         if (null != manifest) {
             pathToResource.put(
-                    ClassLoaderResourcePath.MANIFEST,
-                    manifest(manifest)
+                ClassLoaderResourcePath.MANIFEST,
+                manifest(manifest)
             );
         }
 
@@ -120,32 +120,32 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
             if (name.startsWith("libs/")) {
                 try (final JarInputStream libJarInputStream = new JarInputStream(new ByteArrayInputStream(bytes))) {
                     libs.add(
-                            jarFileWithLibs(
-                                    libJarInputStream,
-                                    lineEnding
-                            )
+                        jarFileWithLibs(
+                            libJarInputStream,
+                            lineEnding
+                        )
                     );
                 }
             } else {
                 pathToResource.put(
-                        ClassLoaderResourcePath.parse(
-                                name.startsWith("/") ?
-                                        name :
-                                        "/" + name
-                        ),
-                        ClassLoaderResource.with(
-                                Binary.with(bytes)
-                        )
+                    ClassLoaderResourcePath.parse(
+                        name.startsWith("/") ?
+                            name :
+                            "/" + name
+                    ),
+                    ClassLoaderResource.with(
+                        Binary.with(bytes)
+                    )
                 );
             }
         }
 
         final List<ClassLoaderResourceProvider> all = Lists.array();
         all.add(
-                map(
-                        pathToResource,
-                        lineEnding
-                )
+            map(
+                pathToResource,
+                lineEnding
+            )
         );
         all.addAll(libs);
 
@@ -158,7 +158,7 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
             bytes.flush();
 
             return ClassLoaderResource.with(
-                    Binary.with(bytes.toByteArray())
+                Binary.with(bytes.toByteArray())
             );
         }
     }
@@ -169,8 +169,8 @@ public final class ClassLoaderResourceProviders implements PublicStaticHelper {
     public static ClassLoaderResourceProvider map(final Map<ClassLoaderResourcePath, ClassLoaderResource> pathToResource,
                                                   final LineEnding lineEnding) {
         return MapClassLoaderResourceProvider.with(
-                pathToResource,
-                lineEnding
+            pathToResource,
+            lineEnding
         );
     }
 

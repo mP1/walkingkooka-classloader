@@ -30,8 +30,8 @@ import java.util.Optional;
  * Note that the path to the manifest.mf is special-cased and not case sensitive during comparisons/equality checks.
  */
 final public class ClassLoaderResourcePath
-        implements Path<ClassLoaderResourcePath, ClassLoaderResourceName>,
-        Comparable<ClassLoaderResourcePath> {
+    implements Path<ClassLoaderResourcePath, ClassLoaderResourceName>,
+    Comparable<ClassLoaderResourcePath> {
 
     private final static String SEPARATOR_STRING = "/";
 
@@ -39,34 +39,34 @@ final public class ClassLoaderResourcePath
      * {@link PathSeparator} instance
      */
     public final static PathSeparator SEPARATOR = PathSeparator.requiredAtStart(
-            SEPARATOR_STRING.charAt(0)
+        SEPARATOR_STRING.charAt(0)
     );
 
     private final static String MANIFEST_STRING = "/META-INF/MANIFEST.MF";
 
     public final static ClassLoaderResourcePath MANIFEST = new ClassLoaderResourcePath(
-            MANIFEST_STRING,
-            ClassLoaderResourceName.with("MANIFEST.MF"),
-            Optional.of(
-                    new ClassLoaderResourcePath(
-                            "/META-INF",
-                            ClassLoaderResourceName.with("META-INF"),
-                            Optional.empty()
-                    )
+        MANIFEST_STRING,
+        ClassLoaderResourceName.with("MANIFEST.MF"),
+        Optional.of(
+            new ClassLoaderResourcePath(
+                "/META-INF",
+                ClassLoaderResourceName.with("META-INF"),
+                Optional.empty()
             )
+        )
     );
 
     final static ClassLoaderResourceName ROOT_NAME = ClassLoaderResourceName.with(
-            ClassLoaderResourcePath.SEPARATOR.string()
+        ClassLoaderResourcePath.SEPARATOR.string()
     );
 
     /**
      * Convenient constant holding the root.
      */
     public final static ClassLoaderResourcePath ROOT = new ClassLoaderResourcePath(
-            ClassLoaderResourcePath.SEPARATOR.string(),
-            ClassLoaderResourcePath.ROOT_NAME,
-            Optional.empty()
+        ClassLoaderResourcePath.SEPARATOR.string(),
+        ClassLoaderResourcePath.ROOT_NAME,
+        Optional.empty()
     );
 
     /**
@@ -100,18 +100,18 @@ final public class ClassLoaderResourcePath
 
             if (path.length() > 1) {
                 for (final String component : path.substring(1).split(SEPARATOR.string())) {
-                    switch(component) {
+                    switch (component) {
                         case CURRENT:
                             break;
                         case PARENT:
                             dontWrap = true;
                             result = result.parent()
-                                    .orElseThrow(() -> new IllegalArgumentException("Invalid path " + CharSequences.quoteAndEscape(path)));
+                                .orElseThrow(() -> new IllegalArgumentException("Invalid path " + CharSequences.quoteAndEscape(path)));
                             dontWrap = false;
                             break;
                         default:
                             result = result.append(
-                                    ClassLoaderResourceName.with(component)
+                                ClassLoaderResourceName.with(component)
                             );
                             break;
                     }
@@ -119,7 +119,7 @@ final public class ClassLoaderResourcePath
             }
             return result;
         } catch (final IllegalArgumentException cause) {
-            if(dontWrap) {
+            if (dontWrap) {
                 throw cause;
             }
             throw new IllegalArgumentException("Failed to parse " + CharSequences.quote(path) + ", message: " + cause.getMessage(), cause);
@@ -133,10 +133,10 @@ final public class ClassLoaderResourcePath
         Objects.requireNonNull(name, "name");
 
         return parse(
-                SEPARATOR.string() +
-                        name.value()
-                                .replace('.', SEPARATOR.character()) +
-                        ".class"
+            SEPARATOR.string() +
+                name.value()
+                    .replace('.', SEPARATOR.character()) +
+                ".class"
         );
     }
 
@@ -190,9 +190,9 @@ final public class ClassLoaderResourcePath
         path.append(name.value());
 
         return new ClassLoaderResourcePath(
-                path.toString(), // path
-                name,
-                Optional.of(this) // parent
+            path.toString(), // path
+            name,
+            Optional.of(this) // parent
         );
     }
 
@@ -236,10 +236,10 @@ final public class ClassLoaderResourcePath
         Objects.requireNonNull(other, "other");
 
         return ClassLoaderResourceName.CASE_SENSITIVITY.comparator()
-                .compare(
-                        this.path,
-                        other.path
-                );
+            .compare(
+                this.path,
+                other.path
+            );
     }
 
     // Object...........................................................................................................
@@ -252,13 +252,13 @@ final public class ClassLoaderResourcePath
     @Override
     public boolean equals(final Object other) {
         return (this == other) ||
-                ((other instanceof ClassLoaderResourcePath) && this.equals0((ClassLoaderResourcePath) other));
+            ((other instanceof ClassLoaderResourcePath) && this.equals0((ClassLoaderResourcePath) other));
     }
 
     private boolean equals0(final ClassLoaderResourcePath other) {
         return this.path.equalsIgnoreCase(MANIFEST_STRING) ?
-                this.path.equalsIgnoreCase(other.path) :
-                ClassLoaderResourceName.CASE_SENSITIVITY.equals(this.path, other.path);
+            this.path.equalsIgnoreCase(other.path) :
+            ClassLoaderResourceName.CASE_SENSITIVITY.equals(this.path, other.path);
     }
 
     @Override

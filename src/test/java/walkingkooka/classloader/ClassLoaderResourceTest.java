@@ -29,14 +29,14 @@ import java.nio.charset.StandardCharsets;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class ClassLoaderResourceTest implements ClassTesting<ClassLoaderResource>,
-        HashCodeEqualsDefinedTesting2<ClassLoaderResource>,
-        ToStringTesting<ClassLoaderResource> {
+    HashCodeEqualsDefinedTesting2<ClassLoaderResource>,
+    ToStringTesting<ClassLoaderResource> {
 
     @Test
     public void testWithNullFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> ClassLoaderResource.with(null)
+            NullPointerException.class,
+            () -> ClassLoaderResource.with(null)
         );
     }
 
@@ -45,9 +45,9 @@ public final class ClassLoaderResourceTest implements ClassTesting<ClassLoaderRe
     @Test
     public void testEqualsDifferentValue() {
         this.checkNotEquals(
-                ClassLoaderResource.with(
-                        Binary.with("Different".getBytes(StandardCharsets.UTF_8))
-                )
+            ClassLoaderResource.with(
+                Binary.with("Different".getBytes(StandardCharsets.UTF_8))
+            )
         );
     }
 
@@ -56,7 +56,7 @@ public final class ClassLoaderResourceTest implements ClassTesting<ClassLoaderRe
     @Override
     public ClassLoaderResource createObject() {
         return ClassLoaderResource.with(
-                Binary.with("ABC".getBytes(StandardCharsets.UTF_8))
+            Binary.with("ABC".getBytes(StandardCharsets.UTF_8))
         );
     }
 
@@ -65,10 +65,10 @@ public final class ClassLoaderResourceTest implements ClassTesting<ClassLoaderRe
     @Test
     public void testToString() {
         this.toStringAndCheck(
-                ClassLoaderResource.with(
-                        Binary.with("Different".getBytes(StandardCharsets.UTF_8))
-                ),
-                "[68, 105, 102, 102, 101, 114, 101, 110, 116]"
+            ClassLoaderResource.with(
+                Binary.with("Different".getBytes(StandardCharsets.UTF_8))
+            ),
+            "[68, 105, 102, 102, 101, 114, 101, 110, 116]"
         );
     }
 

@@ -31,7 +31,7 @@ import java.util.jar.JarFile;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class JarFileClassLoaderResourceProviderTest implements ClassLoaderResourceProviderTesting,
-        ClassTesting<JarFileClassLoaderResourceProvider> {
+    ClassTesting<JarFileClassLoaderResourceProvider> {
 
     private final static String TEST_JAR_FILE = "./src/test/resources/JarFileClassLoaderResourceProviderTest.jar";
 
@@ -40,82 +40,82 @@ public final class JarFileClassLoaderResourceProviderTest implements ClassLoader
     @Test
     public void testWithNullJarFileFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> JarFileClassLoaderResourceProvider.with(
-                        null,
-                        EOL
-                )
+            NullPointerException.class,
+            () -> JarFileClassLoaderResourceProvider.with(
+                null,
+                EOL
+            )
         );
     }
 
     @Test
     public void testWithNullLineEndingFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> JarFileClassLoaderResourceProvider.with(
-                        new JarFile(TEST_JAR_FILE),
-                        null
-                )
+            NullPointerException.class,
+            () -> JarFileClassLoaderResourceProvider.with(
+                new JarFile(TEST_JAR_FILE),
+                null
+            )
         );
     }
 
     @Test
     public void testLoadUnknown() throws IOException {
         this.loadAndCheck(
-                this.classLoaderResourceProvider(),
-                ClassLoaderResourcePath.parse("/walkingkooka/classloader/UNKNOWN.txt")
+            this.classLoaderResourceProvider(),
+            ClassLoaderResourcePath.parse("/walkingkooka/classloader/UNKNOWN.txt")
         );
     }
 
     @Test
     public void testLoadResourceManifest() throws IOException {
         this.loadAndCheck(
-                this.classLoaderResourceProvider(),
-                ClassLoaderResourcePath.parse("/META-INF/Manifest.MF"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                ("Manifest-Version: 1.0\r\n" +
-                                        "Created-By: 11.0.5 (Oracle Corporation)\r\n\r\n")
-                                        .getBytes(Charset.defaultCharset())
-                        )
+            this.classLoaderResourceProvider(),
+            ClassLoaderResourcePath.parse("/META-INF/Manifest.MF"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    ("Manifest-Version: 1.0\r\n" +
+                        "Created-By: 11.0.5 (Oracle Corporation)\r\n\r\n")
+                        .getBytes(Charset.defaultCharset())
                 )
+            )
         );
     }
 
     @Test
     public void testLoadResource() throws IOException {
         this.loadAndCheck(
-                this.classLoaderResourceProvider(),
-                ClassLoaderResourcePath.parse("/walkingkooka/classloader/test-resource-123.txt"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                new byte[]{
-                                        '1',
-                                        '2',
-                                        '3'
-                                }
-                        )
+            this.classLoaderResourceProvider(),
+            ClassLoaderResourcePath.parse("/walkingkooka/classloader/test-resource-123.txt"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    new byte[]{
+                        '1',
+                        '2',
+                        '3'
+                    }
                 )
+            )
         );
     }
 
     @Test
     public void testLoadDirectory() throws IOException {
         this.loadAndCheck(
-                this.classLoaderResourceProvider(),
-                ClassLoaderResourcePath.parse("/walkingkooka/classloader"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                "test-resource-123.txt\n".getBytes(StandardCharsets.UTF_8)
-                        )
+            this.classLoaderResourceProvider(),
+            ClassLoaderResourcePath.parse("/walkingkooka/classloader"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    "test-resource-123.txt\n".getBytes(StandardCharsets.UTF_8)
                 )
+            )
         );
     }
 
     private JarFileClassLoaderResourceProvider classLoaderResourceProvider() throws IOException {
         return JarFileClassLoaderResourceProvider.with(
-                new JarFile(TEST_JAR_FILE),
-                EOL
+            new JarFile(TEST_JAR_FILE),
+            EOL
         );
     }
 

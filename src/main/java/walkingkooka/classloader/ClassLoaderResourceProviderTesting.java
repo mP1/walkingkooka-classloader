@@ -26,9 +26,9 @@ public interface ClassLoaderResourceProviderTesting extends Testing {
     default void loadAndCheck(final ClassLoaderResourceProvider provider,
                               final ClassLoaderResourcePath path) {
         this.loadAndCheck(
-                provider,
-                path,
-                Optional.empty()
+            provider,
+            path,
+            Optional.empty()
         );
     }
 
@@ -36,9 +36,9 @@ public interface ClassLoaderResourceProviderTesting extends Testing {
                               final ClassLoaderResourcePath path,
                               final ClassLoaderResource expected) {
         this.loadAndCheck(
-                provider,
-                path,
-                Optional.of(expected)
+            provider,
+            path,
+            Optional.of(expected)
         );
     }
 
@@ -46,9 +46,9 @@ public interface ClassLoaderResourceProviderTesting extends Testing {
                               final ClassLoaderResourcePath path,
                               final Optional<ClassLoaderResource> expected) {
         this.checkEquals(
-                expected,
-                provider.load(path),
-                () -> "load " + path
+            expected,
+            provider.load(path),
+            () -> "load " + path
         );
     }
 }

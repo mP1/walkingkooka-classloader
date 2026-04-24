@@ -21,7 +21,7 @@ import walkingkooka.reflect.ClassTesting;
 import walkingkooka.reflect.JavaVisibility;
 
 final public class ClassLoaderResourceProviderClassLoaderUrlConnectionTest
-        implements ClassTesting<ClassLoaderResourceProviderClassLoaderUrlConnection> {
+    implements ClassTesting<ClassLoaderResourceProviderClassLoaderUrlConnection> {
 
     @Override
     public Class<ClassLoaderResourceProviderClassLoaderUrlConnection> type() {

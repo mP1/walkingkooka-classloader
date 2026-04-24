@@ -49,16 +49,16 @@ final class UrlClassLoaderClassLoaderResourceProvider implements ClassLoaderReso
     public Optional<ClassLoaderResource> load(final ClassLoaderResourcePath path) {
         // ClassLoader.getResourceAsStream dont need leading slash
         final String classPathPath = path.value()
-                .substring(1);
+            .substring(1);
 
         final InputStream inputStream = this.urlClassLoader.getResourceAsStream(classPathPath);
         return Optional.ofNullable(
-                null != inputStream ?
-                        this.classLoaderResource(
-                                inputStream,
-                                classPathPath
-                        ) :
-                        null
+            null != inputStream ?
+                this.classLoaderResource(
+                    inputStream,
+                    classPathPath
+                ) :
+                null
         );
     }
 
@@ -66,9 +66,9 @@ final class UrlClassLoaderClassLoaderResourceProvider implements ClassLoaderReso
                                                     final String path) {
         try {
             return ClassLoaderResource.with(
-                    Binary.with(
-                            inputStream.readAllBytes()
-                    )
+                Binary.with(
+                    inputStream.readAllBytes()
+                )
             );
         } catch (final IOException cause) {
             throw new IllegalStateException("Unable to load resource " + CharSequences.quoteAndEscape(path), cause);
@@ -82,7 +82,7 @@ final class UrlClassLoaderClassLoaderResourceProvider implements ClassLoaderReso
     @Override
     public String toString() {
         return Arrays.stream(this.urlClassLoader.getURLs())
-                .map(URL::toString)
-                .collect(Collectors.joining(","));
+            .map(URL::toString)
+            .collect(Collectors.joining(","));
     }
 }

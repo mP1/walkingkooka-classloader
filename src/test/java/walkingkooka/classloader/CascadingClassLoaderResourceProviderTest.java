@@ -29,21 +29,21 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CascadingClassLoaderResourceProviderTest implements ClassLoaderResourceProviderTesting,
-        ClassTesting<CascadingClassLoaderResourceProvider> {
+    ClassTesting<CascadingClassLoaderResourceProvider> {
 
     @Test
     public void testWithNullFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> CascadingClassLoaderResourceProvider.with(null)
+            NullPointerException.class,
+            () -> CascadingClassLoaderResourceProvider.with(null)
         );
     }
 
     @Test
     public void testWithEmptyFails() {
         assertThrows(
-                IllegalArgumentException.class,
-                () -> CascadingClassLoaderResourceProvider.with(Lists.empty())
+            IllegalArgumentException.class,
+            () -> CascadingClassLoaderResourceProvider.with(Lists.empty())
         );
     }
 
@@ -52,12 +52,12 @@ public class CascadingClassLoaderResourceProviderTest implements ClassLoaderReso
         final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.fake();
 
         assertSame(
-                provider,
-                CascadingClassLoaderResourceProvider.with(
-                        Lists.of(
-                                provider
-                        )
+            provider,
+            CascadingClassLoaderResourceProvider.with(
+                Lists.of(
+                    provider
                 )
+            )
         );
     }
 
@@ -65,34 +65,34 @@ public class CascadingClassLoaderResourceProviderTest implements ClassLoaderReso
     public void testLoad() {
         final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/resource2.txt");
         final ClassLoaderResource resource = ClassLoaderResource.with(
-                Binary.with(
-                        new byte[]{
-                                '1',
-                                '2',
-                                '3'
-                        }
-                )
+            Binary.with(
+                new byte[]{
+                    '1',
+                    '2',
+                    '3'
+                }
+            )
         );
 
         this.loadAndCheck(
-                CascadingClassLoaderResourceProvider.with(
-                        Lists.of(
-                                ClassLoaderResourceProviders.map(
-                                        Maps.empty(),
-                                        LineEnding.NL
-                                ),
-                                ClassLoaderResourceProviders.map(
-                                        Maps.of(
-                                                path,
-                                                resource
-                                        ),
-                                        LineEnding.NL
-                                ),
-                                ClassLoaderResourceProviders.fake()
-                        )
-                ),
-                path,
-                resource
+            CascadingClassLoaderResourceProvider.with(
+                Lists.of(
+                    ClassLoaderResourceProviders.map(
+                        Maps.empty(),
+                        LineEnding.NL
+                    ),
+                    ClassLoaderResourceProviders.map(
+                        Maps.of(
+                            path,
+                            resource
+                        ),
+                        LineEnding.NL
+                    ),
+                    ClassLoaderResourceProviders.fake()
+                )
+            ),
+            path,
+            resource
         );
     }
 

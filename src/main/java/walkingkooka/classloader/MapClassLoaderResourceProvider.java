@@ -38,8 +38,8 @@ final class MapClassLoaderResourceProvider implements ClassLoaderResourceProvide
         Objects.requireNonNull(lineEnding, "lineEnding");
 
         return new MapClassLoaderResourceProvider(
-                Maps.immutable(pathToResource),
-                lineEnding
+            Maps.immutable(pathToResource),
+            lineEnding
         );
     }
 
@@ -58,20 +58,20 @@ final class MapClassLoaderResourceProvider implements ClassLoaderResourceProvide
             final String lineEnding = this.lineEnding.toString();
 
             final String listing = pathToResource.keySet()
-                    .stream()
-                    .filter(e -> path.equals(
-                            e.parent()
-                                    .orElse(null)
-                    )).map(e -> e.name().value())
-                    .collect(
-                            Collectors.joining(lineEnding)
-                    );
+                .stream()
+                .filter(e -> path.equals(
+                    e.parent()
+                        .orElse(null)
+                )).map(e -> e.name().value())
+                .collect(
+                    Collectors.joining(lineEnding)
+                );
             if (false == listing.isEmpty()) {
                 resource = ClassLoaderResource.with(
-                        Binary.with(
-                                listing.concat(lineEnding)
-                                        .getBytes(StandardCharsets.UTF_8)
-                        )
+                    Binary.with(
+                        listing.concat(lineEnding)
+                            .getBytes(StandardCharsets.UTF_8)
+                    )
                 );
             }
         }

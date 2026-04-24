@@ -26,7 +26,7 @@ import walkingkooka.text.CharSequences;
  * The name portion of a class path resource path.
  */
 public final class ClassLoaderResourceName implements Name,
-        Comparable<ClassLoaderResourceName> {
+    Comparable<ClassLoaderResourceName> {
 
     /**
      * Resource names are case-sensitive.
@@ -38,7 +38,7 @@ public final class ClassLoaderResourceName implements Name,
      */
     public static ClassLoaderResourceName with(final String name) {
         return new ClassLoaderResourceName(
-                CharSequences.failIfNullOrEmpty(name, "name")
+            CharSequences.failIfNullOrEmpty(name, "name")
         );
     }
 
@@ -63,8 +63,8 @@ public final class ClassLoaderResourceName implements Name,
     @Override
     public boolean equals(final Object other) {
         return this == other ||
-                other instanceof ClassLoaderResourceName &&
-                        this.equals0(Cast.to(other));
+            other instanceof ClassLoaderResourceName &&
+                this.equals0(Cast.to(other));
     }
 
     private boolean equals0(final ClassLoaderResourceName other) {
@@ -81,7 +81,7 @@ public final class ClassLoaderResourceName implements Name,
     @Override
     public int compareTo(final ClassLoaderResourceName other) {
         return CASE_SENSITIVITY.comparator()
-                .compare(this.name, other.name);
+            .compare(this.name, other.name);
     }
 
     // HasCaseSensitivity...............................................................................................

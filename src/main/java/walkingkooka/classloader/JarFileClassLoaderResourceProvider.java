@@ -25,8 +25,8 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
     static JarFileClassLoaderResourceProvider with(final JarFile file,
                                                    final LineEnding lineEnding) {
         return new JarFileClassLoaderResourceProvider(
-                Objects.requireNonNull(file, "file"),
-                Objects.requireNonNull(lineEnding, "lineEnding")
+            Objects.requireNonNull(file, "file"),
+            Objects.requireNonNull(lineEnding, "lineEnding")
         );
     }
 
@@ -46,8 +46,8 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
 
         try {
             return path.value().equalsIgnoreCase("/META-INF/MANIFEST.MF") ?
-                    this.loadManifest() :
-                    this.loadNonManifest(path);
+                this.loadManifest() :
+                this.loadNonManifest(path);
         } catch (final IOException cause) {
             throw new ClassFormatError("Error reading " + path + " from jar file, " + cause.getMessage());
         }
@@ -61,9 +61,9 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
             bytes.flush();
 
             return Optional.ofNullable(
-                    ClassLoaderResource.with(
-                            Binary.with(bytes.toByteArray())
-                    )
+                ClassLoaderResource.with(
+                    Binary.with(bytes.toByteArray())
+                )
             );
         }
     }
@@ -73,8 +73,8 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
 
         // drop the leading slash from path#value
         final JarEntry entry = this.file.getJarEntry(
-                path.value()
-                        .substring(1)
+            path.value()
+                .substring(1)
         );
         if (null != entry) {
             if (entry.isDirectory()) {
@@ -100,15 +100,15 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
             final String name = entry.getName();
             try {
                 final ClassLoaderResourcePath entryPath = ClassLoaderResourcePath.parse(
-                        ClassLoaderResourcePath.SEPARATOR.string() + name
+                    ClassLoaderResourcePath.SEPARATOR.string() + name
                 );
                 if (parent.equals(
-                        entryPath.parent()
-                                .orElse(null)
+                    entryPath.parent()
+                        .orElse(null)
                 )) {
                     listing.append(
-                            entryPath.name()
-                                    .value()
+                        entryPath.name()
+                            .value()
                     ).append(lineEnding);
                 }
             } catch (final Exception ignore) {
@@ -117,10 +117,10 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
         }
 
         return ClassLoaderResource.with(
-                Binary.with(
-                        listing.toString()
-                                .getBytes(StandardCharsets.UTF_8)
-                )
+            Binary.with(
+                listing.toString()
+                    .getBytes(StandardCharsets.UTF_8)
+            )
         );
     }
 
@@ -128,10 +128,10 @@ final class JarFileClassLoaderResourceProvider implements ClassLoaderResourcePro
 
     private ClassLoaderResource resource(final JarEntry entry) throws IOException {
         return ClassLoaderResource.with(
-                Binary.with(
-                        file.getInputStream(entry)
-                                .readAllBytes()
-                )
+            Binary.with(
+                file.getInputStream(entry)
+                    .readAllBytes()
+            )
         );
     }
 

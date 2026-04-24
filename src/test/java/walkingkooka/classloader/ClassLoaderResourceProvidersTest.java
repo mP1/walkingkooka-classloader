@@ -39,7 +39,7 @@ import java.util.jar.Manifest;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class ClassLoaderResourceProvidersTest implements PublicStaticHelperTesting<ClassLoaderResourceProviders>,
-        ClassLoaderResourceProviderTesting {
+    ClassLoaderResourceProviderTesting {
 
     // jarFileWithLibs..................................................................................................
 
@@ -48,26 +48,26 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
     @Test
     public void testJarFileWithLibsWithNullInputStreamFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> ClassLoaderResourceProviders.jarFileWithLibs(
-                        null,
-                        EOL
-                )
+            NullPointerException.class,
+            () -> ClassLoaderResourceProviders.jarFileWithLibs(
+                null,
+                EOL
+            )
         );
     }
 
     @Test
     public void testJarFileWithLibsWithNullLineEndingFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> ClassLoaderResourceProviders.jarFileWithLibs(
-                        new JarInputStream(
-                                new ByteArrayInputStream(
-                                        new byte[0]
-                                )
-                        ),
-                        null
-                )
+            NullPointerException.class,
+            () -> ClassLoaderResourceProviders.jarFileWithLibs(
+                new JarInputStream(
+                    new ByteArrayInputStream(
+                        new byte[0]
+                    )
+                ),
+                null
+            )
         );
     }
 
@@ -77,25 +77,25 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         final String manifest = "Manifest-Version: 1.0\r\nKey1: Value1\r\n\r\n";
 
         final byte[] jar = createJar(
-                manifest,
-                Maps.empty()
+            manifest,
+            Maps.empty()
         );
 
         final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
-                new JarInputStream(
-                        new ByteArrayInputStream(jar)
-                ),
-                EOL
+            new JarInputStream(
+                new ByteArrayInputStream(jar)
+            ),
+            EOL
         );
 
         this.loadAndCheck(
-                provider,
-                ClassLoaderResourcePath.MANIFEST,
-                ClassLoaderResource.with(
-                        Binary.with(
-                                manifest.getBytes(StandardCharsets.UTF_8)
-                        )
+            provider,
+            ClassLoaderResourcePath.MANIFEST,
+            ClassLoaderResource.with(
+                Binary.with(
+                    manifest.getBytes(StandardCharsets.UTF_8)
                 )
+            )
         );
     }
 
@@ -105,25 +105,25 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         final String manifest = "Manifest-Version: 1.0\r\nKey1: Value1\r\n\r\n";
 
         final byte[] jar = createJar(
-                manifest,
-                Maps.empty()
+            manifest,
+            Maps.empty()
         );
 
         final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
-                new JarInputStream(
-                        new ByteArrayInputStream(jar)
-                ),
-                EOL
+            new JarInputStream(
+                new ByteArrayInputStream(jar)
+            ),
+            EOL
         );
 
         this.loadAndCheck(
-                provider,
-                ClassLoaderResourcePath.parse("/meta-inf/manifest.MF"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                manifest.getBytes(StandardCharsets.UTF_8)
-                        )
+            provider,
+            ClassLoaderResourcePath.parse("/meta-inf/manifest.MF"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    manifest.getBytes(StandardCharsets.UTF_8)
                 )
+            )
         );
     }
 
@@ -132,52 +132,52 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         final String manifest = "Manifest-Version: 1.0\r\nKey1: Value1\r\n";
 
         final byte[] resource1 = new byte[]{
-                '1',
-                '1',
-                '1'
+            '1',
+            '1',
+            '1'
         };
 
         final byte[] resource2 = new byte[]{
-                '2',
-                '2',
-                '2'
+            '2',
+            '2',
+            '2'
         };
 
         final byte[] jar = createJar(
-                manifest,
-                Maps.of(
-                        "test/test-resource111.txt",
-                        resource1,
-                        "test/test-resource222.txt",
-                        resource2
-                )
+            manifest,
+            Maps.of(
+                "test/test-resource111.txt",
+                resource1,
+                "test/test-resource222.txt",
+                resource2
+            )
         );
 
         final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
-                new JarInputStream(
-                        new ByteArrayInputStream(jar)
-                ),
-                EOL
+            new JarInputStream(
+                new ByteArrayInputStream(jar)
+            ),
+            EOL
         );
 
         this.loadAndCheck(
-                provider,
-                ClassLoaderResourcePath.parse("/test/test-resource111.txt"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                resource1
-                        )
+            provider,
+            ClassLoaderResourcePath.parse("/test/test-resource111.txt"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    resource1
                 )
+            )
         );
 
         this.loadAndCheck(
-                provider,
-                ClassLoaderResourcePath.parse("/test/test-resource222.txt"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                resource2
-                        )
+            provider,
+            ClassLoaderResourcePath.parse("/test/test-resource222.txt"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    resource2
                 )
+            )
         );
     }
 
@@ -185,63 +185,63 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
     @Test
     public void testJarFileWithLibsWithLibs() throws IOException {
         final byte[] resource1 = new byte[]{
-                '1',
-                '1',
-                '1'
+            '1',
+            '1',
+            '1'
         };
 
         final byte[] resource2 = new byte[]{
-                '2',
-                '2',
-                '2'
+            '2',
+            '2',
+            '2'
         };
 
         final byte[] libs = createJar(
-                "Manifest-Version: 1.0",
-                Maps.of(
-                        "test/test-resource111.txt",
-                        resource1,
-                        "test/test-resource222.txt",
-                        "ignored".getBytes(StandardCharsets.UTF_8)
-                )
+            "Manifest-Version: 1.0",
+            Maps.of(
+                "test/test-resource111.txt",
+                resource1,
+                "test/test-resource222.txt",
+                "ignored".getBytes(StandardCharsets.UTF_8)
+            )
         );
 
         final byte[] jar = createJar(
-                "Manifest-Version: 1.0",
-                Maps.of(
-                        "test/test-resource222.txt",
-                        resource2,
-                        "libs/test.jar",
-                        libs
-                )
+            "Manifest-Version: 1.0",
+            Maps.of(
+                "test/test-resource222.txt",
+                resource2,
+                "libs/test.jar",
+                libs
+            )
         );
 
 
         final ClassLoaderResourceProvider provider = ClassLoaderResourceProviders.jarFileWithLibs(
-                new JarInputStream(
-                        new ByteArrayInputStream(jar)
-                ),
-                EOL
+            new JarInputStream(
+                new ByteArrayInputStream(jar)
+            ),
+            EOL
         );
 
         this.loadAndCheck(
-                provider,
-                ClassLoaderResourcePath.parse("/test/test-resource111.txt"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                resource1
-                        )
+            provider,
+            ClassLoaderResourcePath.parse("/test/test-resource111.txt"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    resource1
                 )
+            )
         );
 
         this.loadAndCheck(
-                provider,
-                ClassLoaderResourcePath.parse("/test/test-resource222.txt"),
-                ClassLoaderResource.with(
-                        Binary.with(
-                                resource2
-                        )
+            provider,
+            ClassLoaderResourcePath.parse("/test/test-resource222.txt"),
+            ClassLoaderResource.with(
+                Binary.with(
+                    resource2
                 )
+            )
         );
     }
 
@@ -250,14 +250,14 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
         try (final ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
             final Manifest manifest1 = new Manifest();
             manifest1.read(
-                    new ByteArrayInputStream(
-                            manifest.getBytes(Charset.defaultCharset())
-                    )
+                new ByteArrayInputStream(
+                    manifest.getBytes(Charset.defaultCharset())
+                )
             );
 
             final JarOutputStream jarOut = new JarOutputStream(
-                    bytes,
-                    manifest1
+                bytes,
+                manifest1
             );
 
             for (final Map.Entry<String, byte[]> mapEntry : contents.entrySet()) {

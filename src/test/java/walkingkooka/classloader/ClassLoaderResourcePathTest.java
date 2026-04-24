@@ -32,8 +32,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoaderResourcePath, ClassLoaderResourceName>,
-        ClassTesting2<ClassLoaderResourcePath>,
-        ParseStringTesting<ClassLoaderResourcePath> {
+    ClassTesting2<ClassLoaderResourcePath>,
+    ParseStringTesting<ClassLoaderResourcePath> {
 
     @Override
     public void testAllConstructorsVisibility() {
@@ -48,16 +48,16 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     @Test
     public void testParseMissingRequiredLeadingSlashFails() {
         this.parseStringFails(
-                "without-leading-slash",
-                IllegalArgumentException.class
+            "without-leading-slash",
+            IllegalArgumentException.class
         );
     }
 
     @Test
     public void testParseEmptyComponentFails() {
         this.parseStringFails(
-                "/before//after",
-                IllegalArgumentException.class
+            "/before//after",
+            IllegalArgumentException.class
         );
     }
 
@@ -79,8 +79,8 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse(value);
 
         assertSame(
-                path,
-                ClassLoaderResourcePath.MANIFEST
+            path,
+            ClassLoaderResourcePath.MANIFEST
         );
 
         this.valueAndCheck(path, value);
@@ -122,7 +122,7 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         this.parentCheck(path, "/path/to");
 
         final ClassLoaderResourcePath parent = path.parent()
-                .get();
+            .get();
 
         this.valueAndCheck(parent, "/path/to");
         this.rootNotCheck(parent);
@@ -134,18 +134,18 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     public void testParseIncludesDot() {
         final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/./path2/./path3");
         this.valueAndCheck(
-                path,
-                "/path1/path2/path3"
+            path,
+            "/path1/path2/path3"
         );
         this.rootNotCheck(path);
         this.nameCheck(
-                path,
-                ClassLoaderResourceName.with("path3")
+            path,
+            ClassLoaderResourceName.with("path3")
         );
 
         this.parentCheck(
-                path,
-                "/path1/path2"
+            path,
+            "/path1/path2"
         );
     }
 
@@ -153,18 +153,18 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     public void testParseIncludesTrailingDot() {
         final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/path2/path3/.");
         this.valueAndCheck(
-                path,
-                "/path1/path2/path3"
+            path,
+            "/path1/path2/path3"
         );
         this.rootNotCheck(path);
         this.nameCheck(
-                path,
-                ClassLoaderResourceName.with("path3")
+            path,
+            ClassLoaderResourceName.with("path3")
         );
 
         this.parentCheck(
-                path,
-                "/path1/path2"
+            path,
+            "/path1/path2"
         );
     }
 
@@ -172,18 +172,18 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     public void testParseIncludesDoubleDot() {
         final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/./path2/../path3");
         this.valueAndCheck(
-                path,
-                "/path1/path3"
+            path,
+            "/path1/path3"
         );
         this.rootNotCheck(path);
         this.nameCheck(
-                path,
-                ClassLoaderResourceName.with("path3")
+            path,
+            ClassLoaderResourceName.with("path3")
         );
 
         this.parentCheck(
-                path,
-                "/path1"
+            path,
+            "/path1"
         );
     }
 
@@ -191,18 +191,18 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     public void testParseIncludesTrailingDoubleDot() {
         final ClassLoaderResourcePath path = ClassLoaderResourcePath.parse("/path1/path2/path3/..");
         this.valueAndCheck(
-                path,
-                "/path1/path2"
+            path,
+            "/path1/path2"
         );
         this.rootNotCheck(path);
         this.nameCheck(
-                path,
-                ClassLoaderResourceName.with("path2")
+            path,
+            ClassLoaderResourceName.with("path2")
         );
 
         this.parentCheck(
-                path,
-                "/path1"
+            path,
+            "/path1"
         );
     }
 
@@ -211,8 +211,8 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     @Test
     public void testParseStartsWithDoubleDotFails() {
         this.parseStringFails(
-                "/../hello",
-                new IllegalArgumentException("Invalid path \"/../hello\"")
+            "/../hello",
+            new IllegalArgumentException("Invalid path \"/../hello\"")
         );
     }
 
@@ -236,16 +236,16 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     @Test
     public void testFromClassNameNullFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> ClassLoaderResourcePath.from(null)
+            NullPointerException.class,
+            () -> ClassLoaderResourcePath.from(null)
         );
     }
 
     @Test
     public void testFromClassName() {
         this.checkEquals(
-                ClassLoaderResourcePath.parse("/java/lang/String.class"),
-                ClassLoaderResourcePath.from(ClassName.fromClass(String.class))
+            ClassLoaderResourcePath.parse("/java/lang/String.class"),
+            ClassLoaderResourcePath.from(ClassName.fromClass(String.class))
         );
     }
 
@@ -270,8 +270,8 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         this.rootNotCheck(path);
         this.valueAndCheck(path, "/name1");
         this.nameCheck(
-                path,
-                name
+            path,
+            name
         );
     }
 
@@ -284,8 +284,8 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         this.rootNotCheck(path);
         this.valueAndCheck(path, "/parent1/name2");
         this.nameCheck(
-                path,
-                name
+            path,
+            name
         );
     }
 
@@ -299,8 +299,8 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         this.rootNotCheck(parent);
         this.valueAndCheck(parent, "/name1");
         this.nameCheck(
-                parent,
-                name
+            parent,
+            name
         );
     }
 
@@ -312,16 +312,16 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         final ClassLoaderResourcePath path = parent.append(path2);
         this.rootNotCheck(path);
         this.valueAndCheck(
-                path,
-                "/parent1/path2"
+            path,
+            "/parent1/path2"
         );
         this.nameCheck(
-                path,
-                ClassLoaderResourceName.with("path2")
+            path,
+            ClassLoaderResourceName.with("path2")
         );
         this.parentCheck(
-                path,
-                "/parent1"
+            path,
+            "/parent1"
         );
     }
 
@@ -332,19 +332,19 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         final ClassLoaderResourcePath path34 = ClassLoaderResourcePath.parse("/path3/path4");
 
         final ClassLoaderResourcePath path = parent.append(path2)
-                .append(path34);
+            .append(path34);
         this.rootNotCheck(path);
         this.valueAndCheck(
-                path,
-                "/parent1/path2/path3/path4"
+            path,
+            "/parent1/path2/path3/path4"
         );
         this.nameCheck(
-                path,
-                ClassLoaderResourceName.with("path4")
+            path,
+            ClassLoaderResourceName.with("path4")
         );
         this.parentCheck(
-                path,
-                "/parent1/path2/path3"
+            path,
+            "/parent1/path2/path3"
         );
     }
 
@@ -353,8 +353,8 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
     @Test
     public void testEqualsManifestDifferentCase() {
         this.checkEquals(
-                ClassLoaderResourcePath.MANIFEST,
-                ClassLoaderResourcePath.parse("/meta-inf/manifest.mf")
+            ClassLoaderResourcePath.MANIFEST,
+            ClassLoaderResourcePath.parse("/meta-inf/manifest.mf")
         );
     }
 
