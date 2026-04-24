@@ -20,6 +20,7 @@ package walkingkooka.classloader;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Binary;
 import walkingkooka.Value;
+import walkingkooka.ValueTesting;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.reflect.ClassName;
 import walkingkooka.reflect.ClassTesting;
@@ -33,7 +34,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTesting<ClassLoaderResourceProviderClassLoader>,
-        ClassLoaderTesting<ClassLoaderResourceProviderClassLoader> {
+        ClassLoaderTesting<ClassLoaderResourceProviderClassLoader>,
+        ValueTesting {
 
     // constants
 
@@ -335,7 +337,10 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
                     @Override
                     public Optional<ClassLoaderResource> load(final ClassLoaderResourcePath path) {
                         final String classNameFilename = className.filename();
-                        checkEquals(classNameFilename, path.value(), "load");
+                        valueAndCheck(
+                                path,
+                                classNameFilename
+                        );
 
                         try {
                             final byte[] bytes = ClassLoader.getSystemClassLoader()
@@ -357,10 +362,9 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
                 className.value(),
                 true // resolve
         );
-        this.checkEquals(
-                className.value(),
-                klass.getName(),
-                "class name"
+        this.valueAndCheck(
+                className,
+                klass.getName()
         );
         this.checkEquals(
                 classLoader,
