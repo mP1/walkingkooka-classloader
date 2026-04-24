@@ -25,38 +25,38 @@ import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseSensitivity;
 
 public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoaderResourceName>,
-        NameTesting<ClassLoaderResourceName, ClassLoaderResourceName> {
+    NameTesting<ClassLoaderResourceName, ClassLoaderResourceName> {
 
     // fileExtension........................................................................................................
 
     @Test
     public void testFileExtensionMissing() {
         this.fileExtensionAndCheck(
-                ClassLoaderResourceName.with("xyz")
+            ClassLoaderResourceName.with("xyz")
         );
     }
 
     @Test
     public void testFileExtensionEmpty() {
         this.fileExtensionAndCheck(
-                ClassLoaderResourceName.with("xyz."),
-                FileExtension.with("")
+            ClassLoaderResourceName.with("xyz."),
+            FileExtension.with("")
         );
     }
 
     @Test
     public void testFileExtensionPresent() {
         this.fileExtensionAndCheck(
-                ClassLoaderResourceName.with("xyz.txt"),
-                FileExtension.with("txt")
+            ClassLoaderResourceName.with("xyz.txt"),
+            FileExtension.with("txt")
         );
     }
 
     @Test
     public void testFileExtensionPresent2() {
         this.fileExtensionAndCheck(
-                ClassLoaderResourceName.with("xyz.EXE"),
-                FileExtension.with("EXE")
+            ClassLoaderResourceName.with("xyz.EXE"),
+            FileExtension.with("EXE")
         );
     }
 

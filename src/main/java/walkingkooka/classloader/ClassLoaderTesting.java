@@ -34,25 +34,25 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
-        EnumerationTesting {
+    EnumerationTesting {
 
     // getResource......................................................................................................
 
     @Test
     default void testGetResourceWithNullFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> this.createClassLoader()
-                        .getResource(null)
+            NullPointerException.class,
+            () -> this.createClassLoader()
+                .getResource(null)
         );
     }
 
     @Test
     default void testGetResourceWithUnknownResource() throws IOException {
         this.getResourceAndCheck(
-                this.createClassLoader(),
-                "/unknown-404.resource",
-                null
+            this.createClassLoader(),
+            "/unknown-404.resource",
+            null
         );
     }
 
@@ -60,9 +60,9 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
     default void getResourceAndCheck(final String resourceName,
                                      final byte... expected) throws IOException {
         this.getResourceAndCheck(
-                this.createClassLoader(),
-                resourceName,
-                expected
+            this.createClassLoader(),
+            resourceName,
+            expected
         );
     }
 
@@ -85,9 +85,9 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
         }
 
         this.checkEquals(
-                expected,
-                actual,
-                "getResource " + resourceName + " inputStream bytes"
+            expected,
+            actual,
+            "getResource " + resourceName + " inputStream bytes"
         );
     }
 
@@ -96,17 +96,17 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
     @Test
     default void testGetResourcesWithNullFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> this.createClassLoader()
-                        .getResources(null)
+            NullPointerException.class,
+            () -> this.createClassLoader()
+                .getResources(null)
         );
     }
 
     @Test
     default void testGetResourcesWithUnknownResourceFails() throws IOException {
         this.getResourcesAndCheck(
-                this.createClassLoader(),
-                "/unknown-404.resource"
+            this.createClassLoader(),
+            "/unknown-404.resource"
         );
     }
 
@@ -115,11 +115,11 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
                                       final String resourceName,
                                       final byte[]... expected) throws IOException {
         this.getResourcesAndCheck(
-                classLoader,
-                resourceName,
-                IntStream.range(0, expected.length)
-                        .mapToObj(i -> expected[i])
-                        .collect(Collectors.toList())
+            classLoader,
+            resourceName,
+            IntStream.range(0, expected.length)
+                .mapToObj(i -> expected[i])
+                .collect(Collectors.toList())
         );
     }
 
@@ -128,9 +128,9 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
                                       final List<byte[]> expected) throws IOException {
         final Enumeration<URL> urls = classLoader.getResources(resourceName);
         this.checkNotEquals(
-                null,
-                urls,
-                () -> "getResources " + resourceName + " url"
+            null,
+            urls,
+            () -> "getResources " + resourceName + " url"
         );
 
         final List<List<Byte>> resourceBytes = Lists.array();
@@ -145,23 +145,23 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
             final byte[] bytes = inputStream.readAllBytes();
 
             resourceBytes.add(
-                    IntStream.range(0, bytes.length)
-                            .mapToObj(i -> bytes[i])
-                            .collect(Collectors.toList())
+                IntStream.range(0, bytes.length)
+                    .mapToObj(i -> bytes[i])
+                    .collect(Collectors.toList())
             );
 
             inputStream.close();
         }
 
         this.checkEquals(
-                expected.stream()
-                        .map(
-                                a -> IntStream.range(0, a.length)
-                                        .mapToObj(i -> a[i])
-                                        .collect(Collectors.toList())
-                        ).collect(Collectors.toList()),
-                resourceBytes,
-                "getResources " + resourceName + " inputStream bytes"
+            expected.stream()
+                .map(
+                    a -> IntStream.range(0, a.length)
+                        .mapToObj(i -> a[i])
+                        .collect(Collectors.toList())
+                ).collect(Collectors.toList()),
+            resourceBytes,
+            "getResources " + resourceName + " inputStream bytes"
         );
     }
 
@@ -170,18 +170,18 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
     @Test
     default void testGetResourceAsStreamWithNullFails() {
         assertThrows(
-                NullPointerException.class,
-                () -> this.createClassLoader()
-                        .getResourceAsStream(null)
+            NullPointerException.class,
+            () -> this.createClassLoader()
+                .getResourceAsStream(null)
         );
     }
 
     @Test
     default void testGetResourceAsStreamWithUnknownResource() {
         this.checkEquals(
-                null,
-                this.createClassLoader()
-                        .getResourceAsStream("/unknown-404.resource")
+            null,
+            this.createClassLoader()
+                .getResourceAsStream("/unknown-404.resource")
         );
     }
 
@@ -189,9 +189,9 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
     default void getResourceAsStreamAndCheck(final String resourceName,
                                              final byte[] expected) throws IOException {
         this.getResourceAsStreamAndCheck(
-                this.createClassLoader(),
-                resourceName,
-                expected
+            this.createClassLoader(),
+            resourceName,
+            expected
         );
     }
 
@@ -201,11 +201,11 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
         final InputStream inputStream = classLoader.getResourceAsStream(resourceName);
 
         this.checkEquals(
-                expected,
-                null != inputStream ?
-                        inputStream.readAllBytes() :
-                        null,
-                "getResourceAsStream " + resourceName + " inputStream bytes"
+            expected,
+            null != inputStream ?
+                inputStream.readAllBytes() :
+                null,
+            "getResourceAsStream " + resourceName + " inputStream bytes"
         );
 
         if (null != inputStream) {
@@ -218,9 +218,9 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
     @Test
     default void testLoadClassWithNullFails() {
         this.loadClassAndFail(
-                this.createClassLoader(),
-                null,
-                NullPointerException.class
+            this.createClassLoader(),
+            null,
+            NullPointerException.class
         );
     }
 
@@ -228,8 +228,8 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
                                     final String className,
                                     final Class<? extends Throwable> thrownType) {
         final Throwable thrown = assertThrows(
-                thrownType,
-                () -> loader.loadClass(className)
+            thrownType,
+            () -> loader.loadClass(className)
         );
         return thrown.getMessage();
     }
@@ -239,14 +239,14 @@ public interface ClassLoaderTesting<T extends ClassLoader> extends Testing,
                                   final Class<? extends Throwable> thrownType,
                                   final String message) {
         final String actual = loadClassAndFail(
-                loader,
-                className,
-                thrownType
+            loader,
+            className,
+            thrownType
         );
         this.checkEquals(
-                message,
-                actual,
-                () -> "load " + className
+            message,
+            actual,
+            () -> "load " + className
         );
     }
 

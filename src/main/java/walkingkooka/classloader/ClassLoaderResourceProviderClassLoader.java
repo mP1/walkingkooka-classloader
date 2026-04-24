@@ -58,8 +58,8 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
         Objects.requireNonNull(provider, "provider");
 
         return new ClassLoaderResourceProviderClassLoader(
-                parent,
-                provider
+            parent,
+            provider
         );
     }
 
@@ -88,8 +88,8 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
             } catch (final ClassNotFoundException e) {
                 if (null == klass) {
                     klass = this.loadClassUsingClassLoaderResourceProvider(
-                            name,
-                            resolve
+                        name,
+                        resolve
                     );
                 }
             }
@@ -111,15 +111,15 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
                 throw new ClassNotFoundException(name);
             }
             return this.definePackagesClassAndMaybeResolve(
-                    resource.readAllBytes(),
-                    name,
-                    resolve,
-                    className
+                resource.readAllBytes(),
+                name,
+                resolve,
+                className
             );
         } catch (final IOException cause) {
             throw new ClassNotFoundException(
-                    cause.getMessage(),
-                    cause
+                cause.getMessage(),
+                cause
             );
         }
     }
@@ -153,13 +153,13 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
                 try {
                     this.definePackages(name.parent());
                     this.definePackage(name.value(), //
-                            null /* specTitle */, //
-                            null /* specVersion */,//
-                            null /* specVendor */, //
-                            null /* implTitle */, //
-                            null /* implVersion */, //
-                            null /* implVendor */,//
-                            null /* seal url */);
+                        null /* specTitle */, //
+                        null /* specVersion */,//
+                        null /* specVendor */, //
+                        null /* implTitle */, //
+                        null /* implVersion */, //
+                        null /* implVendor */,//
+                        null /* seal url */);
                 } catch (final IllegalArgumentException ignore) {
                 }
             }
@@ -208,14 +208,14 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
         final InputStream input = this.inputStreamOrNull(name);
         if (null != input) {
             resources = Enumerations.chain(
-                    Lists.of(
-                            resources,
-                            Enumerations.iterator(
-                                    Iterators.one(
-                                            this.createUrl(name, input)
-                                    )
-                            )
+                Lists.of(
+                    resources,
+                    Enumerations.iterator(
+                        Iterators.one(
+                            this.createUrl(name, input)
+                        )
                     )
+                )
             );
         }
         return resources;
@@ -227,15 +227,15 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
     private URL createUrl(final String name, final InputStream input) {
         try {
             return new URL(
-                    ClassLoaderResourceProviderClassLoader.PROTOCOL,
-                    "",
-                    0,
+                ClassLoaderResourceProviderClassLoader.PROTOCOL,
+                "",
+                0,
+                name,
+                ClassLoaderResourceProviderClassLoaderUrlStreamHandler.with(
                     name,
-                    ClassLoaderResourceProviderClassLoaderUrlStreamHandler.with(
-                            name,
-                            input,
-                            this
-                    )
+                    input,
+                    this
+                )
             );
         } catch (final MalformedURLException cause) {
             throw new RuntimeException("Unable to create Url for " + name, cause);
@@ -252,14 +252,14 @@ final class ClassLoaderResourceProviderClassLoader extends ClassLoader {
             ClassLoaderResourcePath path = null;
             try {
                 path = ClassLoaderResourcePath.parse(
-                        ClassLoaderResourceProviderClassLoader.ROOT != name.charAt(0) ?
-                                ClassLoaderResourcePath.SEPARATOR.string()
-                                        .concat(name)
-                                : name
+                    ClassLoaderResourceProviderClassLoader.ROOT != name.charAt(0) ?
+                        ClassLoaderResourcePath.SEPARATOR.string()
+                            .concat(name)
+                        : name
                 );
                 resource = this.provider.load(path)
-                        .map(r -> r.value().inputStream())
-                        .orElse(null);
+                    .map(r -> r.value().inputStream())
+                    .orElse(null);
             } catch (final IllegalArgumentException cause) {
                 if (null != path) {
                     throw cause;

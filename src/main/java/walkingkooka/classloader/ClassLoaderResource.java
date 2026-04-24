@@ -32,10 +32,10 @@ public final class ClassLoaderResource implements Value<Binary> {
      */
     public static ClassLoaderResource with(final Binary value) {
         return new ClassLoaderResource(
-                Objects.requireNonNull(
-                        value,
-                        "value"
-                )
+            Objects.requireNonNull(
+                value,
+                "value"
+            )
         );
     }
 

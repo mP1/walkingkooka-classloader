@@ -47,7 +47,7 @@ final class CascadingClassLoaderResourceProvider implements ClassLoaderResourceP
                 break;
             default:
                 result = new CascadingClassLoaderResourceProvider(
-                        copy
+                    copy
                 );
         }
 
