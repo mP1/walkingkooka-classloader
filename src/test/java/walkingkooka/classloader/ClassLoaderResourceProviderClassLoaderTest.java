@@ -19,8 +19,8 @@ package walkingkooka.classloader;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.Binary;
-import walkingkooka.Value;
-import walkingkooka.ValueTesting;
+import walkingkooka.HasValue;
+import walkingkooka.HasValueTesting;
 import walkingkooka.collect.list.Lists;
 import walkingkooka.reflect.ClassName;
 import walkingkooka.reflect.ClassTesting;
@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTesting<ClassLoaderResourceProviderClassLoader>,
     ClassLoaderTesting<ClassLoaderResourceProviderClassLoader>,
-    ValueTesting {
+    HasValueTesting {
 
     // constants
 
@@ -44,7 +44,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
         @Override
         public Class<?> loadClass(final String name,
                                   final boolean resolve) throws ClassNotFoundException {
-            if (name.startsWith("java.") || name.equals(Value.class.getName())) {
+            if (name.startsWith("java.") || name.equals(HasValue.class.getName())) {
                 return ClassLoader.getSystemClassLoader()
                     .loadClass(name);
             }
@@ -379,7 +379,7 @@ final public class ClassLoaderResourceProviderClassLoaderTest implements ClassTe
         );
 
         // cast should work.
-        final Value<String> value = (Value<String>) instance;
+        final HasValue<String> value = (HasValue<String>) instance;
         this.checkEquals(
             "XYZ123",
             value.value()
