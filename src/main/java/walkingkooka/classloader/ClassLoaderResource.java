@@ -18,14 +18,14 @@
 package walkingkooka.classloader;
 
 import walkingkooka.Binary;
-import walkingkooka.Value;
+import walkingkooka.HasValue;
 
 import java.util.Objects;
 
 /**
  * A resource loaded by a {@link ClassLoaderResourceProvider}.
  */
-public final class ClassLoaderResource implements Value<Binary> {
+public final class ClassLoaderResource implements HasValue<Binary> {
 
     /**
      * Creates a new {@link ClassLoaderResource}

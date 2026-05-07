@@ -17,7 +17,7 @@
 
 package walkingkooka.classloader;
 
-import walkingkooka.Value;
+import walkingkooka.HasValue;
 
-public interface TestInterface extends Value<String> {
+public interface TestInterface extends HasValue<String> {
 }
