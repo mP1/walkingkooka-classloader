@@ -68,7 +68,7 @@ public final class ClassLoaderResourceTest implements ClassTesting<ClassLoaderRe
             ClassLoaderResource.with(
                 Binary.with("Different".getBytes(StandardCharsets.UTF_8))
             ),
-            "[68, 105, 102, 102, 101, 114, 101, 110, 116]"
+            "44 69 66 66 65 72 65 6e 74                                  Different           \n"
         );
     }
 
