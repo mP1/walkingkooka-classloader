@@ -19,13 +19,13 @@ package walkingkooka.classloader;
 
 import org.junit.jupiter.api.Test;
 import walkingkooka.io.FileExtension;
-import walkingkooka.naming.NameTesting;
+import walkingkooka.naming.PathNameTesting;
 import walkingkooka.reflect.ClassTesting2;
 import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.text.CaseSensitivity;
 
 public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoaderResourceName>,
-    NameTesting<ClassLoaderResourceName, ClassLoaderResourceName> {
+    PathNameTesting<ClassLoaderResourceName, ClassLoaderResourceName> {
 
     // fileExtension........................................................................................................
 

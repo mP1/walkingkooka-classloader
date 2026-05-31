@@ -18,14 +18,14 @@
 package walkingkooka.classloader;
 
 import walkingkooka.Cast;
-import walkingkooka.naming.Name;
+import walkingkooka.naming.PathName;
 import walkingkooka.text.CaseSensitivity;
 import walkingkooka.text.CharSequences;
 
 /**
  * The name portion of a class path resource path.
  */
-public final class ClassLoaderResourceName implements Name,
+public final class ClassLoaderResourceName implements PathName,
     Comparable<ClassLoaderResourceName> {
 
     /**
