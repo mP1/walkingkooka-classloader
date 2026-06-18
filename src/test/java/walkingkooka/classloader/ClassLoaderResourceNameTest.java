@@ -40,7 +40,7 @@ public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoa
     public void testFileExtensionEmpty() {
         this.fileExtensionAndCheck(
             ClassLoaderResourceName.with("xyz."),
-            FileExtension.with("")
+            FileExtension.EMPTY
         );
     }
 
@@ -48,7 +48,7 @@ public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoa
     public void testFileExtensionPresent() {
         this.fileExtensionAndCheck(
             ClassLoaderResourceName.with("xyz.txt"),
-            FileExtension.with("txt")
+            FileExtension.TXT
         );
     }
 
