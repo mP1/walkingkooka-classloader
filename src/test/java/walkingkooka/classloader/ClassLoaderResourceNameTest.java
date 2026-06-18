@@ -56,7 +56,7 @@ public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoa
     public void testFileExtensionPresent2() {
         this.fileExtensionAndCheck(
             ClassLoaderResourceName.with("xyz.EXE"),
-            FileExtension.with("EXE")
+            FileExtension.parse("EXE")
         );
     }
 
