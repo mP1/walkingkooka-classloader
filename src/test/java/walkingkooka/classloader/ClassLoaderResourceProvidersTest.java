@@ -20,7 +20,6 @@ package walkingkooka.classloader;
 import org.junit.jupiter.api.Test;
 import walkingkooka.Binary;
 import walkingkooka.collect.map.Maps;
-import walkingkooka.reflect.JavaVisibility;
 import walkingkooka.reflect.PublicStaticHelperTesting;
 import walkingkooka.text.LineEnding;
 
@@ -284,11 +283,6 @@ public final class ClassLoaderResourceProvidersTest implements PublicStaticHelpe
     @Override
     public Class<ClassLoaderResourceProviders> type() {
         return ClassLoaderResourceProviders.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 
     @Override
