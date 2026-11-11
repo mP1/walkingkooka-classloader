@@ -20,11 +20,10 @@ package walkingkooka.classloader;
 import org.junit.jupiter.api.Test;
 import walkingkooka.io.FileExtension;
 import walkingkooka.naming.PathNameTesting;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.text.CaseSensitivity;
 
-public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoaderResourceName>,
+public final class ClassLoaderResourceNameTest implements PublicClassTesting<ClassLoaderResourceName>,
     PathNameTesting<ClassLoaderResourceName, ClassLoaderResourceName> {
 
     // fileExtension........................................................................................................
@@ -90,10 +89,5 @@ public final class ClassLoaderResourceNameTest implements ClassTesting2<ClassLoa
     @Override
     public Class<ClassLoaderResourceName> type() {
         return ClassLoaderResourceName.class;
-    }
-
-    @Override
-    public JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
     }
 }
