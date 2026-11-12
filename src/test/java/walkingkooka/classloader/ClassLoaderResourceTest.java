@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class ClassLoaderResourceTest implements ClassTesting<ClassLoaderResource>,
     HashCodeEqualsDefinedTesting2<ClassLoaderResource>,
-    ToStringTesting<ClassLoaderResource> {
+    ToStringTesting {
 
     @Test
     public void testWithNullFails() {
