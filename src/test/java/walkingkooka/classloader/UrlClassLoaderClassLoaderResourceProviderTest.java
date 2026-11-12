@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 
 public final class UrlClassLoaderClassLoaderResourceProviderTest implements ClassLoaderResourceProviderTesting,
     ClassTesting<UrlClassLoaderClassLoaderResourceProvider>,
-    ToStringTesting<UrlClassLoaderClassLoaderResourceProvider> {
+    ToStringTesting {
 
     @Test
     public void testLoadResource() throws Exception {
