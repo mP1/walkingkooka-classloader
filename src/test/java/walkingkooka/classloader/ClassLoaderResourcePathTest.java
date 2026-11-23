@@ -22,8 +22,7 @@ import walkingkooka.collect.set.Sets;
 import walkingkooka.naming.PathSeparator;
 import walkingkooka.naming.PathTesting;
 import walkingkooka.reflect.ClassName;
-import walkingkooka.reflect.ClassTesting2;
-import walkingkooka.reflect.JavaVisibility;
+import walkingkooka.reflect.PublicClassTesting;
 import walkingkooka.test.ParseStringTesting;
 
 import java.util.Set;
@@ -32,16 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoaderResourcePath, ClassLoaderResourceName>,
-    ClassTesting2<ClassLoaderResourcePath>,
+    PublicClassTesting<ClassLoaderResourcePath>,
     ParseStringTesting<ClassLoaderResourcePath> {
-
-    @Override
-    public void testAllConstructorsVisibility() {
-    }
-
-    @Override
-    public void testIfClassIsFinalIfAllConstructorsArePrivate() {
-    }
 
     // parse............................................................................................................
 
@@ -395,22 +386,17 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         return ClassLoaderResourcePath.parse("/path");
     }
 
-    // ClassTesting.....................................................................................................
-
-    @Override
-    public Class<ClassLoaderResourcePath> type() {
-        return ClassLoaderResourcePath.class;
-    }
-
-    @Override
-    public final JavaVisibility typeVisibility() {
-        return JavaVisibility.PUBLIC;
-    }
-
     // ConstantTesting ..................................................................................................
 
     @Override
     public Set<ClassLoaderResourcePath> intentionalDuplicateConstants() {
         return Sets.empty();
+    }
+
+    // Class............................................................................................................
+
+    @Override
+    public Class<ClassLoaderResourcePath> type() {
+        return ClassLoaderResourcePath.class;
     }
 }
