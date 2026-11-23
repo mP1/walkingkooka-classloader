@@ -221,16 +221,6 @@ final public class ClassLoaderResourcePathTest implements PathTesting<ClassLoade
         return ClassLoaderResourcePath.parse(text);
     }
 
-    @Override
-    public RuntimeException parseStringFailedExpected(final RuntimeException expected) {
-        return expected;
-    }
-
-    @Override
-    public Class<? extends RuntimeException> parseStringFailedExpected(final Class<? extends RuntimeException> expected) {
-        return expected;
-    }
-
     // fromClassName....................................................................................................
 
     @Test
